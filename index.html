@@ -1,11 +1,865 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexaMind Labs</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaMind Labs — Intelligent Solutions & Expert Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#0D1B3E;--navy:#1B2860;--indigo:#4F46E5;--indigo-light:#818CF8;
+  --teal:#06B6D4;--amber:#F59E0B;--amber-light:#FCD34D;
+  --card:#FFFFFF;--surface:#F5F7FF;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',sans-serif;color:var(--text);overflow-x:hidden;background:#fff}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.35s}
+nav.scrolled{background:rgba(13,27,62,0.97);backdrop-filter:blur(16px);box-shadow:0 2px 30px rgba(0,0,0,0.25)}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.6rem;white-space:nowrap}
+.nav-logo-text{display:flex;align-items:baseline;gap:0.25rem}
+.nav-brand{color:#fff}
+.nav-labs{color:var(--indigo-light);font-weight:400;font-size:1.05rem}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:rgba(255,255,255,0.75);font-size:0.875rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border-radius:8px;font-weight:600;font-size:0.875rem;text-decoration:none;transition:all 0.22s;cursor:pointer;border:none;font-family:'Inter',sans-serif;line-height:1}
+.btn-glow{background:var(--indigo);color:#fff;box-shadow:0 0 20px rgba(79,70,229,0.4)}
+.btn-glow:hover{background:#4338CA;box-shadow:0 0 30px rgba(79,70,229,0.6);transform:translateY(-1px)}
+.btn-amber{background:var(--amber);color:#0F172A;font-weight:700}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px)}
+.btn-outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4)}
+.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,0.1)}
+.btn-outline{background:transparent;color:var(--indigo);border:2px solid var(--indigo)}
+.btn-outline:hover{background:var(--indigo);color:#fff}
+.btn-white{background:#fff;color:var(--navy);font-weight:700}
+.btn-white:hover{background:rgba(255,255,255,0.9);transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--dark);display:flex;align-items:center;padding:7rem 2rem 5rem;position:relative;overflow:hidden}
+.hex{position:absolute;opacity:0;animation:hexFloat 12s ease-in-out infinite;pointer-events:none}
+@keyframes hexFloat{0%,100%{opacity:0.07;transform:translateY(0) rotate(0deg)}50%{opacity:0.14;transform:translateY(-24px) rotate(8deg)}}
+.h1{top:8%;right:5%;animation-delay:0s}
+.h2{top:20%;right:18%;animation-delay:-2s;transform:scale(0.6)}
+.h3{bottom:15%;right:8%;animation-delay:-4s;transform:scale(1.4)}
+.h4{top:40%;left:2%;animation-delay:-6s;transform:scale(0.7)}
+.h5{bottom:8%;left:15%;animation-delay:-8s;transform:scale(0.5)}
+.h6{top:5%;left:30%;animation-delay:-3s;transform:scale(0.4)}
+.dot{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(79,70,229,0.35);animation:dotBlink 4s ease-in-out infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:0.2}}
+.hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.22);padding:0.35rem 1rem;border-radius:100px;display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1.75rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;animation:dotBlink 2s infinite}
+h1{font-family:'Outfit',sans-serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:900;line-height:1.06;color:#fff;margin-bottom:0.5rem;letter-spacing:-0.03em}
+h1 em{font-style:italic;font-weight:300;color:var(--indigo-light)}
+.hero-sub-tag{font-family:'Outfit',sans-serif;font-size:clamp(1.05rem,1.8vw,1.4rem);font-weight:700;color:var(--amber);margin-bottom:1.4rem}
+.hero-desc{font-size:0.975rem;color:rgba(255,255,255,0.58);max-width:480px;line-height:1.78;margin-bottom:2.5rem}
+.hero-cta{display:flex;gap:0.875rem;flex-wrap:wrap;margin-bottom:3rem}
+.hero-stats{display:flex;gap:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1)}
+.hs-num{font-family:'Outfit',sans-serif;font-size:1.75rem;font-weight:800;color:#fff;line-height:1}
+.hs-num em{color:var(--indigo-light);font-style:normal}
+.hs-lbl{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.2rem}
+
+/* HERO RIGHT — rings with expand animation */
+.hero-right{display:flex;align-items:center;justify-content:center}
+.hero-mark-wrap{position:relative;width:320px;height:320px;display:flex;align-items:center;justify-content:center}
+.hero-ring{position:absolute;border-radius:50%;border:1px solid;transform-origin:center}
+/* Change 3: expand/pulse animation instead of pure spin */
+@keyframes ringExpand{
+  0%{transform:scale(0.88);opacity:0.1}
+  50%{transform:scale(1.12);opacity:0.3}
+  100%{transform:scale(0.88);opacity:0.1}
+}
+.ring1{width:300px;height:300px;border-color:rgba(79,70,229,0.6);animation:ringExpand 6s ease-in-out infinite}
+.ring2{width:230px;height:230px;border-color:rgba(6,182,212,0.6);animation:ringExpand 8s ease-in-out infinite 2.5s}
+.ring3{width:160px;height:160px;border-color:rgba(245,158,11,0.5);animation:ringExpand 5s ease-in-out infinite 1.2s}
+.hero-mark-inner{position:relative;z-index:2;animation:markPulse 4s ease-in-out infinite}
+@keyframes markPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* SECTIONS */
+.sec{padding:5.5rem 2rem}
+.container{max-width:1200px;margin:0 auto}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem}
+.tag-light{color:var(--teal)}.tag-dark{color:var(--indigo)}
+.sec-title{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,2.8vw,2.4rem);font-weight:800;line-height:1.15;letter-spacing:-0.025em}
+.title-dark{color:#fff}.title-light{color:var(--dark)}
+.sec-sub{font-size:0.95rem;line-height:1.75;max-width:500px}
+.sub-dark{color:rgba(255,255,255,0.55)}.sub-light{color:var(--muted)}
+.sec-head{margin-bottom:3rem}
+.sec-head-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+
+/* SERVICES — Change 4: new SVG icons */
+.services-bg{background:#fff}
+.srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.srv-card{background:var(--surface);border-radius:20px;padding:2rem;border:1px solid var(--border);transition:all 0.3s;opacity:0;transform:translateY(24px)}
+.srv-card.show{opacity:1;transform:translateY(0)}
+.srv-card:hover{background:#fff;box-shadow:0 20px 60px rgba(79,70,229,0.1);border-color:rgba(79,70,229,0.2);transform:translateY(-5px)}
+.srv-ico-wrap{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.ico-i{background:linear-gradient(135deg,#EEF2FF,#C7D2FE)}
+.ico-t{background:linear-gradient(135deg,#ECFEFF,#A5F3FC)}
+.ico-a{background:linear-gradient(135deg,#FFFBEB,#FDE68A)}
+.ico-n{background:linear-gradient(135deg,#F0FDF4,#BBF7D0)}
+.srv-card h3{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:0.5rem}
+.srv-card p{font-size:0.85rem;color:var(--muted);line-height:1.65}
+.srv-link{display:inline-flex;align-items:center;gap:0.3rem;margin-top:1rem;font-size:0.78rem;font-weight:700;color:var(--indigo);text-decoration:none}
+.srv-link:hover{gap:0.5rem}
+
+/* TRAINING */
+.training-bg{background:var(--dark);position:relative;overflow:hidden}
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.t-card{border-radius:24px;padding:2.5rem;opacity:0;transform:translateY(28px);transition:opacity 0.5s,transform 0.5s;position:relative;overflow:hidden}
+.t-card.show{opacity:1;transform:translateY(0)}
+.t-pro{background:linear-gradient(145deg,#312e81,#4F46E5)}
+.t-bright{background:linear-gradient(145deg,#92400e,#F59E0B)}
+.t-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05)}
+.t-badge{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.15);color:#fff;padding:0.28rem 0.85rem;border-radius:100px;display:inline-block;margin-bottom:1.4rem}
+.t-card h3{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;color:#fff;margin-bottom:0.6rem;letter-spacing:-0.025em}
+.t-card>p{font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.68;margin-bottom:1.6rem}
+.t-list{list-style:none;margin-bottom:2rem}
+.t-list li{font-size:0.875rem;color:rgba(255,255,255,0.88);padding:0.4rem 0 0.4rem 1.7rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.1)}
+.t-list li:last-child{border-bottom:none}
+.t-list li::before{content:'✓';position:absolute;left:0;font-weight:800;opacity:0.7}
+
+/* WHY US */
+.why-bg{background:#0a1429}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.why-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.75rem;opacity:0;transform:translateY(20px);transition:all 0.4s}
+.why-card.show{opacity:1;transform:translateY(0)}
+.why-card:hover{background:rgba(79,70,229,0.12);border-color:rgba(79,70,229,0.3)}
+.why-ico-svg{width:40px;height:40px;margin-bottom:1rem}
+.why-card h4{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.4rem}
+.why-card p{font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.6}
+
+/* TESTIMONIALS */
+.testi-bg{background:var(--navy)}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.testi-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.75rem;opacity:0;transform:translateY(20px);transition:all 0.4s}
+.testi-card.show{opacity:1;transform:translateY(0)}
+.testi-stars{color:var(--amber);font-size:0.85rem;margin-bottom:0.75rem;letter-spacing:2px}
+.testi-text{font-size:0.875rem;color:rgba(255,255,255,0.72);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:0.75rem}
+.testi-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.8rem;color:#fff;flex-shrink:0}
+.testi-name{font-family:'Outfit',sans-serif;font-size:0.875rem;font-weight:600;color:#fff}
+.testi-role{font-size:0.72rem;color:rgba(255,255,255,0.4)}
+
+/* ABOUT */
+.about-bg{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-visual{opacity:0;transform:translateX(-24px);transition:all 0.6s}
+.about-visual.show{opacity:1;transform:translateX(0)}
+.about-vis-main{background:linear-gradient(145deg,var(--dark),var(--navy));border-radius:24px;height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;position:relative;overflow:hidden}
+.about-vis-main::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(79,70,229,0.15)}
+.about-vis-main::after{content:'';position:absolute;bottom:-40px;left:-40px;width:140px;height:140px;border-radius:50%;background:rgba(6,182,212,0.1)}
+.about-vis-sub{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-align:center}
+.about-badge-row{display:flex;gap:0.75rem;justify-content:center}
+.about-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:100px;padding:0.28rem 0.75rem;font-size:0.7rem;color:rgba(255,255,255,0.65)}
+.about-txt{opacity:0;transform:translateX(24px);transition:all 0.6s 0.15s}
+.about-txt.show{opacity:1;transform:translateX(0)}
+.about-txt p{color:var(--muted);line-height:1.8;margin-bottom:1.4rem;font-size:0.95rem}
+
+/* BLOG */
+.blog-bg{background:var(--surface)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.blog-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--border);transition:all 0.3s;opacity:0;transform:translateY(20px)}
+.blog-card.show{opacity:1;transform:translateY(0)}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.08)}
+.blog-thumb{height:175px;display:flex;align-items:center;justify-content:center;font-size:3.2rem}
+.blog-body{padding:1.4rem}
+.blog-tag{font-size:0.7rem;font-weight:700;color:var(--indigo);background:rgba(79,70,229,0.09);padding:0.22rem 0.75rem;border-radius:100px;display:inline-block;margin-bottom:0.75rem}
+.blog-card h4{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.975rem;color:var(--dark);margin-bottom:0.45rem;line-height:1.4}
+.blog-card p{font-size:0.82rem;color:var(--muted);line-height:1.6}
+
+/* CTA */
+.cta-bg{background:linear-gradient(135deg,#1B2860 0%,#0D1B3E 60%,#1e1b4b 100%);padding:5.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.cta-bg::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);pointer-events:none}
+.cta-bg h2{font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;color:#fff;margin-bottom:0.9rem;letter-spacing:-0.025em;position:relative}
+.cta-bg p{color:rgba(255,255,255,0.55);font-size:0.975rem;margin-bottom:2.25rem;position:relative}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* FOOTER */
+footer{background:#070e24;padding:3.5rem 2rem 2rem}
+.ft-inner{max-width:1200px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:2rem}
+.ft-logo{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;white-space:nowrap}
+.ft-logo-labs{color:var(--indigo-light);font-weight:400;font-size:1rem}
+.ft-desc{font-size:0.82rem;color:rgba(255,255,255,0.35);line-height:1.7;max-width:280px}
+.ft-col h5{font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:1rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem}
+.ft-col a{font-size:0.82rem;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s}
+.ft-col a:hover{color:#fff}
+.ft-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ft-copy{font-size:0.78rem;color:rgba(255,255,255,0.25)}
+.ft-email{font-size:0.82rem;color:var(--indigo-light);text-decoration:none}
+
+/* DELAY STAGGER */
+.srv-card:nth-child(1){transition-delay:0ms}.srv-card:nth-child(2){transition-delay:70ms}.srv-card:nth-child(3){transition-delay:140ms}.srv-card:nth-child(4){transition-delay:210ms}
+.why-card:nth-child(1){transition-delay:0ms}.why-card:nth-child(2){transition-delay:60ms}.why-card:nth-child(3){transition-delay:120ms}.why-card:nth-child(4){transition-delay:180ms}.why-card:nth-child(5){transition-delay:240ms}.why-card:nth-child(6){transition-delay:300ms}
+.testi-card:nth-child(1){transition-delay:0ms}.testi-card:nth-child(2){transition-delay:80ms}.testi-card:nth-child(3){transition-delay:160ms}
+.blog-card:nth-child(1){transition-delay:0ms}.blog-card:nth-child(2){transition-delay:80ms}.blog-card:nth-child(3){transition-delay:160ms}
+.t-card:nth-child(1){transition-delay:0ms}.t-card:nth-child(2){transition-delay:100ms}
+
+/* MOBILE */
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-toggle span{width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .t-grid,.about-grid{grid-template-columns:1fr}
+  .ft-top{grid-template-columns:1fr}
+  /* Fix 3: reduce about card height on tablet/mobile single-column */
+  .about-vis-main{height:300px}
+  /* Tighten training card padding on tablet */
+  .t-card{padding:2rem}
+}
+@media(max-width:600px){
+  /* Nav */
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,27,62,0.98);flex-direction:column;padding:1rem 2rem 1.5rem;gap:1rem}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:flex}
+  /* Fix 4: reduce hero horizontal padding on small phones */
+  .hero{padding:6rem 1.25rem 3.5rem}
+  .sec{padding:3.5rem 1.25rem}
+  h1{font-size:2.2rem}
+  /* Fix 6: training card padding on phone */
+  .t-card{padding:1.75rem}
+  .t-card h3{font-size:1.55rem}
+  /* Fix 3: further reduce about card on phone */
+  .about-vis-main{height:260px}
+  .about-vis-main svg{width:140px;height:140px}
+  /* Hero stats: wrap and tighten */
+  .hero-stats{gap:1.75rem}
+  .hs-num{font-size:1.45rem}
+  /* Why us grid: 2 col on phone works, but ensure it fits */
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  /* Contact form */
+  .contact-form-wrap{padding:1.5rem}
+  /* Footer bottom: stack vertically */
+  .ft-bottom{flex-direction:column;align-items:flex-start;gap:0.5rem}
+  /* Fix 5: nav logo on very small screens */
+  .nav-logo{font-size:1.1rem}
+  .nav-logo svg{width:26px;height:26px}
+  /* Fix 1: prevent iOS input zoom — must be 16px */
+  .form-group input,.form-group select,.form-group textarea{font-size:16px}
+  /* Section head row: stack on phone */
+  .sec-head-row{flex-direction:column;align-items:flex-start}
+  /* Blog grid single column */
+  .blog-grid{grid-template-columns:1fr}
+  /* Testi grid single column */
+  .testi-grid{grid-template-columns:1fr}
+}
+/* Fix for very small phones (320px) */
+@media(max-width:360px){
+  .hero{padding:5.5rem 1rem 3rem}
+  .sec{padding:3rem 1rem}
+  .t-card,.contact-form-wrap{padding:1.25rem}
+  .why-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.hex,.hero-ring,.hero-mark-inner,.hero-badge::before{animation:none}.srv-card,.t-card,.why-card,.testi-card,.blog-card,.about-visual,.about-txt{transition:none;opacity:1;transform:none}}
+
+/* CONTACT FORM SECTION */
+.contact-sec{background:var(--dark);padding:5.5rem 2rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:start}
+.contact-info{}
+.contact-info h2{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,2.8vw,2.3rem);font-weight:800;color:#fff;letter-spacing:-0.025em;line-height:1.15;margin-bottom:1rem}
+.contact-info p{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.75;margin-bottom:2rem}
+.contact-detail{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem}
+.contact-detail-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-detail-ico svg{width:18px;height:18px}
+.contact-detail-text{font-size:0.85rem;color:rgba(255,255,255,0.7)}
+.contact-detail-text strong{display:block;font-size:0.72rem;color:rgba(255,255,255,0.35);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.1rem}
+.contact-form-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:2.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.8rem 1rem;font-size:0.9rem;color:#fff;font-family:'Inter',sans-serif;transition:border-color 0.2s,background 0.2s;outline:none;resize:none}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.25)}
+.form-group select{color:rgba(255,255,255,0.7);appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.form-group select option{background:#1B2860;color:#fff}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--indigo);background:rgba(79,70,229,0.08)}
+.form-msg{font-size:0.82rem;padding:0.75rem 1rem;border-radius:8px;margin-bottom:1.25rem;display:none}
+.form-msg.success{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6EE7B7;display:block}
+.form-msg.error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#FCA5A5;display:block}
+.btn-submit{width:100%;padding:0.95rem;font-size:1rem;font-weight:700;background:var(--indigo);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:-0.01em;transition:all 0.22s}
+.btn-submit:hover{background:#4338CA;box-shadow:0 0 30px rgba(79,70,229,0.4)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:3rem}}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-    <h1>NexaMind Labs — Coming Soon</h1>
+
+<!-- ─── REUSABLE LOGO MARK (hidden symbol) ─── -->
+<!-- Change 1: 4-pointed sparkle replaces diamond -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="nml-mark" viewBox="0 0 120 120">
+    <rect width="120" height="120" rx="22" fill="#1B2860"/>
+    <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+    <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+    <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+    <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+    <!-- 4-pointed sparkle replacing diamond -->
+    <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+    <circle cx="60" cy="60" r="3" fill="white"/>
+  </symbol>
+  <!-- Transparent/glass version for dark bg display -->
+  <symbol id="nml-mark-glass" viewBox="0 0 120 120">
+    <rect width="120" height="120" rx="22" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+    <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+    <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+    <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+    <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+    <circle cx="60" cy="60" r="3" fill="white"/>
+  </symbol>
+  <!-- Large mark for about section -->
+  <symbol id="nml-mark-large" viewBox="0 0 120 120">
+    <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+    <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+    <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+    <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+    <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+    <circle cx="60" cy="60" r="3" fill="white"/>
+  </symbol>
+</svg>
+
+<!-- NAV — Change 2: NexaMind Labs with proper text split -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <svg width="32" height="32"><use href="#nml-mark"/></svg>
+    <div class="nav-logo-text">
+      <span class="nav-brand">NexaMind</span>
+      <span class="nav-labs">Labs</span>
+    </div>
+  </a>
+  <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact" class="btn btn-glow" style="padding:0.55rem 1.2rem">Get in touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hex h1"><svg width="120" height="140" viewBox="0 0 120 140"><polygon points="60,5 115,32.5 115,107.5 60,135 5,107.5 5,32.5" fill="none" stroke="rgba(79,70,229,1)" stroke-width="1.5"/></svg></div>
+  <div class="hex h2"><svg width="80" height="92" viewBox="0 0 80 92"><polygon points="40,4 76,22 76,70 40,88 4,70 4,22" fill="none" stroke="rgba(6,182,212,1)" stroke-width="1.5"/></svg></div>
+  <div class="hex h3"><svg width="160" height="184" viewBox="0 0 160 184"><polygon points="80,6 154,44 154,140 80,178 6,140 6,44" fill="none" stroke="rgba(245,158,11,1)" stroke-width="1"/></svg></div>
+  <div class="hex h4"><svg width="70" height="80" viewBox="0 0 70 80"><polygon points="35,4 66,20 66,60 35,76 4,60 4,20" fill="none" stroke="rgba(129,140,248,1)" stroke-width="1.5"/></svg></div>
+  <div class="hex h5"><svg width="50" height="58" viewBox="0 0 50 58"><polygon points="25,3 47,14 47,44 25,55 3,44 3,14" fill="none" stroke="rgba(79,70,229,1)" stroke-width="1"/></svg></div>
+  <div class="hex h6"><svg width="44" height="52" viewBox="0 0 44 52"><polygon points="22,3 41,13 41,39 22,49 3,39 3,13" fill="none" stroke="rgba(6,182,212,1)" stroke-width="1"/></svg></div>
+  <div class="dot" style="top:15%;left:8%;animation-delay:0s"></div>
+  <div class="dot" style="top:35%;left:22%;animation-delay:-1s"></div>
+  <div class="dot" style="top:60%;left:5%;animation-delay:-2s"></div>
+  <div class="dot" style="top:80%;left:35%;animation-delay:-0.5s"></div>
+  <div class="dot" style="top:25%;right:30%;animation-delay:-1.5s"></div>
+  <div class="dot" style="top:70%;right:12%;animation-delay:-3s"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">// Based in Trivandrum · Kerala</div>
+      <h1>Build <em>intelligent</em><br>software. Train<br>sharp minds.</h1>
+      <div class="hero-sub-tag">Technology studio + Training lab</div>
+      <p class="hero-desc">NexaMind Labs delivers custom AI-powered applications, SaaS products, and real-world training — for IT professionals levelling up, and students building their future.</p>
+      <div class="hero-cta">
+        <a href="#services" class="btn btn-glow">Explore services</a>
+        <a href="#training" class="btn btn-outline-white">Join training</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hs-num">50<em>+</em></div><div class="hs-lbl">Projects delivered</div></div>
+        <div><div class="hs-num">2<em> tracks</em></div><div class="hs-lbl">Pro & Bright Future</div></div>
+        <div><div class="hs-num">AI<em>-first</em></div><div class="hs-lbl">Every solution</div></div>
+      </div>
+    </div>
+    <!-- Change 3: rings now expand/pulse -->
+    <div class="hero-right">
+      <div class="hero-mark-wrap">
+        <div class="hero-ring ring1"></div>
+        <div class="hero-ring ring2"></div>
+        <div class="hero-ring ring3"></div>
+        <div class="hero-mark-inner">
+          <svg width="148" height="148"><use href="#nml-mark-glass"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES — Change 4: SVG chip/code/cloud/network icons -->
+<section class="sec services-bg" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag tag-dark">// What we do</div>
+      <h2 class="sec-title title-light">Services built for<br>the real world</h2>
+      <p class="sec-sub sub-light" style="margin-top:0.75rem">From concept to deployment — we build, consult, and collaborate on technology that delivers measurable results.</p>
+    </div>
+    <div class="srv-grid">
+
+      <div class="srv-card">
+        <div class="srv-ico-wrap ico-i">
+          <!-- AI chip icon: CPU/chip with connection pins -->
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="14" height="14" rx="2.5" fill="#4F46E5" opacity="0.25"/>
+            <rect x="10" y="10" width="10" height="10" rx="1.5" fill="#4F46E5"/>
+            <line x1="8" y1="12.5" x2="4" y2="12.5" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="8" y1="17.5" x2="4" y2="17.5" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="22" y1="12.5" x2="26" y2="12.5" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="22" y1="17.5" x2="26" y2="17.5" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="12.5" y1="8" x2="12.5" y2="4" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="17.5" y1="8" x2="17.5" y2="4" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="12.5" y1="22" x2="12.5" y2="26" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="17.5" y1="22" x2="17.5" y2="26" stroke="#4F46E5" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>AI Solutions &amp; Consulting</h3>
+        <p>LLM integrations, RAG pipelines, vector search, and AI-powered automation tailored to your exact workflows.</p>
+        <a href="#contact" class="srv-link">Let's talk →</a>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-ico-wrap ico-t">
+          <!-- Code/app dev: screen with code brackets -->
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="5" width="24" height="17" rx="3" stroke="#06B6D4" stroke-width="1.75"/>
+            <line x1="3" y1="22" x2="27" y2="22" stroke="#06B6D4" stroke-width="1.75"/>
+            <line x1="12" y1="22" x2="12" y2="26" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="18" y1="22" x2="18" y2="26" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="9" y1="26" x2="21" y2="26" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round"/>
+            <polyline points="10,12 8,14.5 10,17" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <polyline points="20,12 22,14.5 20,17" stroke="#06B6D4" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="13.5" y1="17.5" x2="16.5" y2="11.5" stroke="#A5F3FC" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Custom App Development</h3>
+        <p>Web and mobile applications built to your requirements — clean architecture, scalable code, fast delivery.</p>
+        <a href="#contact" class="srv-link">Let's talk →</a>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-ico-wrap ico-a">
+          <!-- SaaS: stacked layers with upward arrow -->
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="15" cy="22" rx="10" ry="3.5" stroke="#F59E0B" stroke-width="1.75"/>
+            <path d="M5 18.5 Q5 15 15 15 Q25 15 25 18.5" stroke="#F59E0B" stroke-width="1.75" fill="none"/>
+            <path d="M5 14.5 Q5 11 15 11 Q25 11 25 14.5" stroke="#ECD9A0" stroke-width="1.5" stroke-dasharray="2 2" fill="none"/>
+            <polyline points="12,7 15,4 18,7" stroke="#F59E0B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="15" y1="4" x2="15" y2="11" stroke="#F59E0B" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>SaaS Product Building</h3>
+        <p>Full-cycle SaaS from idea to market. We handle architecture, backend, frontend, and launch strategy end to end.</p>
+        <a href="#contact" class="srv-link">Let's talk →</a>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-ico-wrap ico-n">
+          <!-- Collaboration: branching network / team nodes -->
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="15" cy="6" r="3.5" fill="#10B981" opacity="0.85"/>
+            <circle cx="6" cy="21" r="3" stroke="#10B981" stroke-width="1.75"/>
+            <circle cx="24" cy="21" r="3" stroke="#10B981" stroke-width="1.75"/>
+            <circle cx="15" cy="21" r="3" stroke="#10B981" stroke-width="1.75"/>
+            <line x1="15" y1="9.5" x2="15" y2="18" stroke="#10B981" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="14" y1="15" x2="7" y2="18" stroke="#10B981" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="16" y1="15" x2="23" y2="18" stroke="#10B981" stroke-width="1.75" stroke-linecap="round"/>
+            <line x1="9" y1="21" x2="12" y2="21" stroke="#86EFAC" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="18" y1="21" x2="21" y2="21" stroke="#86EFAC" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Freelance Collaboration</h3>
+        <p>Short-term, high-impact IT collaboration. Plug our expertise into your team for a sprint, a feature, or a fix.</p>
+        <a href="#contact" class="srv-link">Let's talk →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="sec training-bg" id="training">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag tag-light">// Training programmes</div>
+      <h2 class="sec-title title-dark">Two tracks.<br><em style="font-style:italic;font-weight:300;color:rgba(255,255,255,0.5)">One mission.</em></h2>
+      <p class="sec-sub sub-dark" style="margin-top:0.75rem">Whether you're levelling up your IT career or building strong CBSE foundations — we have a programme built for you.</p>
+    </div>
+    <div class="t-grid">
+      <div class="t-card t-pro">
+        <div class="t-badge">For IT Professionals</div>
+        <h3>NexaMind Pro</h3>
+        <p>Industry-aligned courses for developers, engineers, and IT teams. Stay ahead with AI, backend systems, and modern toolchains taught by practitioners.</p>
+        <ul class="t-list">
+          <li>Fullstack &amp; backend development</li>
+          <li>AI/ML practical applications</li>
+          <li>Real project mentorship</li>
+          <li>Flexible online sessions</li>
+        </ul>
+        <a href="#contact" class="btn btn-white">Explore Pro courses</a>
+      </div>
+      <div class="t-card t-bright">
+        <div class="t-badge">For CBSE Students</div>
+        <h3>Bright Future</h3>
+        <p>Personalised coaching for CBSE students in Science, Mathematics, and Social Studies — building deep understanding and real exam confidence.</p>
+        <ul class="t-list">
+          <li>Maths, Science, Social Studies</li>
+          <li>Concept-first, not rote learning</li>
+          <li>Small batches, focused sessions</li>
+          <li>Progress updates for parents</li>
+        </ul>
+        <a href="#contact" class="btn btn-white">Explore Bright Future</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="sec why-bg">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag tag-light">// Why NexaMind</div>
+      <h2 class="sec-title title-dark">What sets us apart</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="7" fill="#4F46E5" opacity="0.3"/><circle cx="20" cy="20" r="4" fill="#4F46E5"/><line x1="20" y1="4" x2="20" y2="12" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="28" x2="20" y2="36" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="20" x2="12" y2="20" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="28" y1="20" x2="36" y2="20" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/></svg>
+        <h4>AI-first thinking</h4>
+        <p>Every solution we build considers AI augmentation from the first line of design, not as an afterthought.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><polyline points="8,28 16,16 22,22 28,12 34,8" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="34" cy="8" r="3" fill="#06B6D4"/></svg>
+        <h4>Fast delivery</h4>
+        <p>We move quickly without cutting corners. Sprint-based delivery with working software at every checkpoint.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><rect x="6" y="14" width="28" height="20" rx="4" stroke="#818CF8" stroke-width="2"/><path d="M13 14 L13 10 Q13 6 20 6 Q27 6 27 10 L27 14" stroke="#818CF8" stroke-width="2" fill="none"/><circle cx="20" cy="24" r="3" fill="#818CF8"/></svg>
+        <h4>Centralized architecture</h4>
+        <p>All your web and mobile apps share one unified backend — no fragmented data, no duplicate logic.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="#F59E0B" stroke-width="2"/><polyline points="14,20 18,24 26,16" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <h4>Local, global quality</h4>
+        <p>Based in Trivandrum with delivery standards that match international studios. No compromise on craft.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="18" rx="3" stroke="#10B981" stroke-width="2"/><line x1="13" y1="16" x2="21" y2="16" stroke="#10B981" stroke-width="2" stroke-linecap="round"/><line x1="13" y1="21" x2="18" y2="21" stroke="#86EFAC" stroke-width="1.5" stroke-linecap="round"/><polyline points="24,28 24,32 28,30" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <h4>Builders who teach</h4>
+        <p>Our trainers are active practitioners. You learn what's being used in production today, not textbooks.</p>
+      </div>
+      <div class="why-card">
+        <svg class="why-ico-svg" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="20" r="8" stroke="#818CF8" stroke-width="2"/><circle cx="26" cy="20" r="8" stroke="#818CF8" stroke-width="2"/><path d="M20 13.5 Q23 20 20 26.5" fill="rgba(129,140,248,0.2)" stroke="#818CF8" stroke-width="1"/></svg>
+        <h4>Transparent collaboration</h4>
+        <p>No black boxes. Open code, clear communication, and honest timelines from day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec testi-bg" id="testimonials">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag tag-light">// What people say</div>
+      <h2 class="sec-title title-dark">Trusted by clients<br>&amp; students</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The team at NexaMind understood our requirements from day one. The AI-integrated dashboard they built reduced our manual reporting time by 70%. Clean code, great communication throughout."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#4F46E5,#818CF8)">RK</div>
+          <div><div class="testi-name">Rahul K.</div><div class="testi-role">Product Manager, SaaS Startup</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"My daughter's Maths grade jumped from C to A in one term. The concept-first approach actually helped her understand the subject, not just memorise formulas. We're continuing for Science too."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">PM</div>
+          <div><div class="testi-name">Priya M.</div><div class="testi-role">Parent, Bright Future programme</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The NexaMind Pro course on RAG pipelines and vector databases was exactly what I needed. Practical, current, and taught by someone who actually uses this stuff in production."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#06B6D4,#4F46E5)">AJ</div>
+          <div><div class="testi-name">Arjun J.</div><div class="testi-role">Backend Engineer, NexaMind Pro</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT — Change 5: Large logo mark shown properly in visual card -->
+<section class="sec about-bg" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-vis-main">
+          <!-- Large mark displayed with full sparkle icon visible -->
+          <svg width="180" height="180" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:1">
+            <rect width="120" height="120" rx="22" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+            <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+            <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+            <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+            <!-- Sparkle — clearly visible at this size -->
+            <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+            <circle cx="60" cy="60" r="3.5" fill="white"/>
+          </svg>
+          <div class="about-vis-sub">NEXAMIND LABS · TRIVANDRUM</div>
+          <div class="about-badge-row">
+            <span class="about-pill">AI-first</span>
+            <span class="about-pill">Est. 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-txt">
+        <div class="sec-tag tag-dark">// About us</div>
+        <h2 class="sec-title title-light" style="margin-bottom:1.25rem">Where technology<br>meets purpose</h2>
+        <p>NexaMind Labs is a Trivandrum-based technology studio. We build intelligent software solutions — and we run training programmes that prepare both IT professionals and school students for the world ahead.</p>
+        <p>We believe great technology and great education are inseparable. Which is why we do both, with the same commitment to depth, clarity, and real-world impact.</p>
+        <a href="#contact" class="btn btn-glow">Work with us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="sec blog-bg" id="blog">
+  <div class="container">
+    <div class="sec-head-row">
+      <div>
+        <div class="sec-tag tag-dark">// Latest writing</div>
+        <h2 class="sec-title title-light">From the blog</h2>
+      </div>
+      <a href="#" class="btn btn-outline">View all posts</a>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#EEF2FF,#C7D2FE)">🤖</div>
+        <div class="blog-body">
+          <span class="blog-tag">AI</span>
+          <h4>Building a RAG pipeline with pgvector and Supabase</h4>
+          <p>A practical walkthrough of semantic search for your applications using open-source tools.</p>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#FFFBEB,#FDE68A)">📚</div>
+        <div class="blog-body">
+          <span class="blog-tag">Education</span>
+          <h4>Why CBSE students struggle with Maths — and how to fix it</h4>
+          <p>Common patterns we've observed, and an approach that builds real exam confidence.</p>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#F0FDFA,#99F6E4)">🚀</div>
+        <div class="blog-body">
+          <span class="blog-tag">Dev</span>
+          <h4>Static to dynamic: migrating your site without downtime</h4>
+          <p>How we move from plain HTML to a full Next.js app on Cloudflare without a single minute of downtime.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="contact-sec" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Left: info -->
+      <div class="contact-info">
+        <div class="sec-tag tag-light" style="margin-bottom:0.75rem">// Get in touch</div>
+        <h2>Let's build something<br>or start learning.</h2>
+        <p>Whether you have a project in mind, want to explore our training programmes, or just want to say hello — drop us a message and we'll get back within 24 hours.</p>
+
+        <div class="contact-detail">
+          <div class="contact-detail-ico" style="background:rgba(79,70,229,0.15)">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="14" height="10" rx="2" stroke="#818CF8" stroke-width="1.5"/><polyline points="2,5 9,11 16,5" stroke="#818CF8" stroke-width="1.5" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            info@nexamindlabs.com
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-ico" style="background:rgba(6,182,212,0.12)">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3" stroke="#06B6D4" stroke-width="1.5"/><path d="M3 15 Q3 11 9 11 Q15 11 15 15" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Location</strong>
+            Trivandrum, Kerala · India
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-ico" style="background:rgba(245,158,11,0.12)">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="9" r="7" stroke="#F59E0B" stroke-width="1.5"/><polyline points="9,5 9,9 12,11" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <div class="contact-detail-text">
+            <strong>Response time</strong>
+            Within 24 hours
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <!-- ⚠ Replace YOUR_FORM_ID with your Formspree form ID after signing up at formspree.io -->
+      <div class="contact-form-wrap">
+        <div class="form-msg" id="form-success">✓ Message sent! We'll get back to you within 24 hours.</div>
+        <div class="form-msg error" id="form-error" style="display:none">Something went wrong. Please try emailing us directly at info@nexamindlabs.com</div>
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <!-- Hidden field to direct reply to right address -->
+          <input type="hidden" name="_replyto" value="info@nexamindlabs.com">
+          <input type="hidden" name="_subject" value="New enquiry — NexaMind Labs website">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">Your name</label>
+              <input type="text" id="fname" name="name" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label for="femail">Email address</label>
+              <input type="email" id="femail" name="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fsubject">I'm interested in</label>
+            <select id="fsubject" name="subject" required>
+              <option value="" disabled selected>Select a topic</option>
+              <option value="AI Solutions & Consulting">AI Solutions &amp; Consulting</option>
+              <option value="Custom App Development">Custom App Development</option>
+              <option value="SaaS Product Building">SaaS Product Building</option>
+              <option value="Freelance Collaboration">Freelance Collaboration</option>
+              <option value="NexaMind Pro Training">NexaMind Pro Training (IT professionals)</option>
+              <option value="Bright Future Coaching">Bright Future Coaching (CBSE students)</option>
+              <option value="General Enquiry">General Enquiry</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fmessage">Message</label>
+            <textarea id="fmessage" name="message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit" id="form-submit">Send message →</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">
+          <svg width="28" height="28"><use href="#nml-mark"/></svg>
+          <span>NexaMind</span> <span class="ft-logo-labs">Labs</span>
+        </div>
+        <p class="ft-desc">A Trivandrum-based technology studio building AI-powered software and training the next generation of developers and students.</p>
+      </div>
+      <div class="ft-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#training">Training</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#blog">Blog</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:info@nexamindlabs.com">info@nexamindlabs.com</a></li>
+          <li><a href="#">Trivandrum, Kerala</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span class="ft-copy">© 2026 NexaMind Labs. All rights reserved.</span>
+      <a href="mailto:info@nexamindlabs.com" class="ft-email">info@nexamindlabs.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+// Mobile menu
+document.getElementById('nav-toggle').addEventListener('click',()=>{
+  document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('nav-links').classList.remove('open'));
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
+},{threshold:0.1});
+document.querySelectorAll('.srv-card,.t-card,.why-card,.testi-card,.blog-card,.about-visual,.about-txt').forEach(el=>obs.observe(el));
+
+// Contact form — Formspree AJAX submission
+const form=document.getElementById('contact-form');
+const submitBtn=document.getElementById('form-submit');
+const successMsg=document.getElementById('form-success');
+const errorMsg=document.getElementById('form-error');
+
+form.addEventListener('submit',async function(e){
+  e.preventDefault();
+
+  // Basic validation
+  const name=form.querySelector('[name="name"]').value.trim();
+  const email=form.querySelector('[name="email"]').value.trim();
+  const subject=form.querySelector('[name="subject"]').value;
+  const message=form.querySelector('[name="message"]').value.trim();
+  if(!name||!email||!subject||!message){
+    errorMsg.textContent='Please fill in all fields before sending.';
+    errorMsg.style.display='block';
+    successMsg.style.display='none';
+    return;
+  }
+
+  // Loading state
+  submitBtn.disabled=true;
+  submitBtn.textContent='Sending…';
+  successMsg.style.display='none';
+  errorMsg.style.display='none';
+
+  try{
+    const data=new FormData(form);
+    const res=await fetch(form.action,{
+      method:'POST',
+      body:data,
+      headers:{'Accept':'application/json'}
+    });
+    if(res.ok){
+      successMsg.style.display='block';
+      form.reset();
+      submitBtn.textContent='Message sent ✓';
+      setTimeout(()=>{submitBtn.disabled=false;submitBtn.textContent='Send message →'},4000);
+    } else {
+      const json=await res.json().catch(()=>({}));
+      throw new Error(json.error||'Server error');
+    }
+  } catch(err){
+    errorMsg.textContent='Something went wrong. Please email us directly at info@nexamindlabs.com';
+    errorMsg.style.display='block';
+    submitBtn.disabled=false;
+    submitBtn.textContent='Send message →';
+  }
+});
+</script>
 </body>
 </html>
