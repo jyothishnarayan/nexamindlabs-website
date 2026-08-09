@@ -5,76 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="robots" content="noindex">
   <title>NexaMind Labs — CMS</title>
-  <script>
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      var token = params.get('nml_token');
-      var provider = params.get('nml_provider');
-      var authError = params.get('auth_error');
-
-      if (token && provider) {
-        // We're in the popup after OAuth redirect
-        // Clean the URL so token isn't visible
-        history.replaceState({}, '', '/admin/');
-        // Broadcast to the main CMS tab (same origin)
-        try {
-          var bc = new BroadcastChannel('nml-cms-auth');
-          bc.postMessage({ token: token, provider: provider });
-          bc.close();
-        } catch(e) {
-          // BroadcastChannel not supported - try localStorage fallback
-          localStorage.setItem('nml-cms-pending', JSON.stringify({ token: token, provider: provider }));
-        }
-        // Close popup
-        window.close();
-        // If window.close() is blocked, show message
-        document.write('<p style="font-family:sans-serif;text-align:center;padding:3rem;color:#4F46E5">Authorized! You can close this tab.</p>');
-        return; // Don't load CMS in popup
-      }
-
-      if (authError) {
-        history.replaceState({}, '', '/admin/');
-        console.error('Auth error:', authError);
-      }
-
-      // Main CMS window — listen for token from popup via BroadcastChannel
-      try {
-        var mainBC = new BroadcastChannel('nml-cms-auth');
-        mainBC.onmessage = function(event) {
-          mainBC.close();
-          var t = event.data.token;
-          var p = event.data.provider;
-          // Dispatch synthetic message event for Decap CMS to pick up
-          window.dispatchEvent(new MessageEvent('message', {
-            data: 'authorization:' + p + ':success:' + JSON.stringify({ token: t, provider: p }),
-            origin: window.location.origin,
-            source: window
-          }));
-        };
-      } catch(e) {}
-
-      // localStorage fallback polling (for browsers without BroadcastChannel)
-      var poll = setInterval(function() {
-        var pending = localStorage.getItem('nml-cms-pending');
-        if (pending) {
-          localStorage.removeItem('nml-cms-pending');
-          clearInterval(poll);
-          try {
-            var d = JSON.parse(pending);
-            window.dispatchEvent(new MessageEvent('message', {
-              data: 'authorization:' + d.provider + ':success:' + JSON.stringify({ token: d.token, provider: d.provider }),
-              origin: window.location.origin,
-              source: window
-            }));
-          } catch(e) {}
-        }
-      }, 300);
-      // Stop polling after 5 minutes
-      setTimeout(function() { clearInterval(poll); }, 300000);
-    })();
-  </script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var token    = params.get('nml_token');
+  var provider = params.get('nml_provider');
+
+  // ── POPUP CALLBACK MODE ──────────────────────────────────────
+  if (token && provider) {
+    // Clean token from URL immediately
+    history.replaceState({}, '', '/admin/');
+
+    // Pass token to the main CMS tab via BroadcastChannel
+    try {
+      var bc = new BroadcastChannel('nml-cms-auth');
+      bc.postMessage({ token: token, provider: provider });
+      bc.close();
+    } catch(e) {
+      // Fallback: localStorage polling
+      localStorage.setItem('nml-cms-pending', JSON.stringify({
+        token: token,
+        provider: provider,
+        ts: Date.now()
+      }));
+    }
+
+    // Close popup — DON'T load CMS
+    document.body.innerHTML =
+      '<p style="font-family:sans-serif;text-align:center;padding:3rem;color:#4F46E5">' +
+      '&#x2713; Authorized! Closing&hellip;</p>';
+
+    setTimeout(function() { window.close(); }, 800);
+    return; // Stop here — no CMS load
+  }
+
+  // ── MAIN CMS TAB MODE ────────────────────────────────────────
+  // Listen for token from popup via BroadcastChannel
+  try {
+    var bc = new BroadcastChannel('nml-cms-auth');
+    bc.onmessage = function(e) {
+      bc.close();
+      deliverToken(e.data.token, e.data.provider);
+    };
+  } catch(e) {}
+
+  // localStorage fallback (for browsers without BroadcastChannel)
+  var poll = setInterval(function() {
+    var raw = localStorage.getItem('nml-cms-pending');
+    if (!raw) return;
+    clearInterval(poll);
+    localStorage.removeItem('nml-cms-pending');
+    try {
+      var d = JSON.parse(raw);
+      // Only use if fresh (< 2 min old)
+      if (Date.now() - d.ts < 120000) {
+        deliverToken(d.token, d.provider);
+      }
+    } catch(e) {}
+  }, 300);
+  setTimeout(function() { clearInterval(poll); }, 300000);
+
+  function deliverToken(t, p) {
+    window.dispatchEvent(new MessageEvent('message', {
+      data: 'authorization:' + p + ':success:' + JSON.stringify({ token: t, provider: p }),
+      origin: window.location.origin,
+      source: window
+    }));
+  }
+
+  // Load Decap CMS only in main tab
+  var s = document.createElement('script');
+  s.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
+  document.body.appendChild(s);
+
+})();
+</script>
 </body>
 </html>
