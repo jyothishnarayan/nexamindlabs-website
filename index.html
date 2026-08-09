@@ -748,12 +748,12 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
         <form id="contact-form" action="https://formspree.io/f/xwlelpka" method="POST" novalidate>
           <!-- Hidden field to direct reply to right address -->
           <input type="hidden" name="_replyto" value="info@nexamindlabs.com">
-          <input type="hidden" name="_subject" value="New enquiry — NexaMind Labs website">
-
+          <input type="hidden" name="_subject" id="form-subject" value="New enquiry — NexaMind Labs website">
+          
           <div class="form-row">
             <div class="form-group">
               <label for="fname">Your name</label>
-              <input type="text" id="fname" name="name" placeholder="Full name" required>
+              <input type="text" id="fname" name="Full Name" placeholder="Full name" required>
             </div>
             <div class="form-group">
               <label for="femail">Email address</label>
@@ -763,21 +763,21 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
 
           <div class="form-group">
             <label for="fsubject">I'm interested in</label>
-            <select id="fsubject" name="subject" required>
+            <select id="fsubject" name="Enquiry Topic" required>
               <option value="" disabled selected>Select a topic</option>
               <option value="AI Solutions & Consulting">AI Solutions &amp; Consulting</option>
               <option value="Custom App Development">Custom App Development</option>
               <option value="SaaS Product Building">SaaS Product Building</option>
               <option value="Freelance Collaboration">Freelance Collaboration</option>
-              <option value="NexaMind Pro Training">NexaMind Pro Training (IT professionals)</option>
-              <option value="Bright Future Coaching">Bright Future Coaching (CBSE students)</option>
+              <option value="NexaMind Pro Training (IT professionals)">NexaMind Pro Training (IT professionals)</option>
+              <option value="Bright Future Coaching (CBSE students)">Bright Future Coaching (CBSE students)</option>
               <option value="General Enquiry">General Enquiry</option>
             </select>
           </div>
 
           <div class="form-group">
             <label for="fmessage">Message</label>
-            <textarea id="fmessage" name="message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
+            <textarea id="fmessage" name="M   Message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
           </div>
 
           <button type="submit" class="btn-submit" id="form-submit">Send message →</button>
@@ -852,17 +852,19 @@ form.addEventListener('submit',async function(e){
   e.preventDefault();
 
   // Basic validation
-  const name=form.querySelector('[name="name"]').value.trim();
+  const name=form.querySelector('[name="Full Name"]').value.trim();
   const email=form.querySelector('[name="email"]').value.trim();
-  const subject=form.querySelector('[name="subject"]').value;
-  const message=form.querySelector('[name="message"]').value.trim();
-  if(!name||!email||!subject||!message){
+  const topic=form.querySelector('[name="Enquiry Topic"]').value;
+  const message=form.querySelector('[name="Message"]').value.trim();
+  if(!name||!email||!topic||!message){
     errorMsg.textContent='Please fill in all fields before sending.';
     errorMsg.style.display='block';
     successMsg.style.display='none';
     return;
   }
-
+/ Set dynamic subject so each email shows what the enquiry is about
+  document.getElementById('form-subject').value=`New enquiry: ${topic} — NexaMind Labs`;
+  
   // Loading state
   submitBtn.disabled=true;
   submitBtn.textContent='Sending…';
