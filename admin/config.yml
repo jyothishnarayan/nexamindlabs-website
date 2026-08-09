@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: jyothishnarayan/nexamindlabs-website
+  branch: main
+  base_url: https://cms-auth.getjyothishn.workers.dev
+  auth_endpoint: /auth
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Author", name: "author", widget: "string", default: "NexaMind Labs"}
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["AI", "Dev", "Education", "SaaS", "General"]
+      - {label: "Summary", name: "summary", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
