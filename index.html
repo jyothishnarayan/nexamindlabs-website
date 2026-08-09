@@ -777,7 +777,7 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
 
           <div class="form-group">
             <label for="fmessage">Message</label>
-            <textarea id="fmessage" name="M   Message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
+            <textarea id="fmessage" name="Message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
           </div>
 
           <button type="submit" class="btn-submit" id="form-submit">Send message →</button>
@@ -862,7 +862,7 @@ form.addEventListener('submit',async function(e){
     successMsg.style.display='none';
     return;
   }
-/ Set dynamic subject so each email shows what the enquiry is about
+// Set dynamic subject so each email shows what the enquiry is about
   document.getElementById('form-subject').value=`New enquiry: ${topic} — NexaMind Labs`;
   
   // Loading state
