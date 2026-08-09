@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post — NexaMind Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--dark:#0D1B3E;--navy:#1B2860;--indigo:#4F46E5;--indigo-light:#818CF8;--teal:#06B6D4;--amber:#F59E0B;--surface:#F5F7FF;--text:#0F172A;--muted:#64748B;--border:#E2E8F0}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff}
+nav{background:var(--dark);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.6rem}
+.nav-labs{color:var(--indigo-light);font-weight:400;font-size:1.05rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.875rem;font-weight:500}
+.nav-links a:hover{color:#fff}
+/* POST HERO */
+.post-hero{background:var(--dark);padding:3.5rem 2rem 2.5rem}
+.post-hero-inner{max-width:740px;margin:0 auto}
+.back-link{display:inline-flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.82rem;font-weight:500;margin-bottom:1.5rem;transition:color 0.2s}
+.back-link:hover{color:#fff}
+.post-tag{font-size:0.72rem;font-weight:700;color:var(--teal);background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.2);padding:0.28rem 0.85rem;border-radius:100px;display:inline-block;margin-bottom:1rem}
+.post-hero h1{font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-0.03em;margin-bottom:1.25rem}
+.post-meta-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.author-chip{display:flex;align-items:center;gap:0.5rem}
+.author-dot{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--teal));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff}
+.author-name{font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8)}
+.post-date{font-size:0.82rem;color:rgba(255,255,255,0.4)}
+.dot-sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,0.2)}
+/* BODY */
+.post-body-wrap{max-width:740px;margin:0 auto;padding:3rem 2rem 5rem}
+.post-summary{font-size:1.05rem;color:var(--muted);line-height:1.75;padding:1.25rem 1.5rem;background:var(--surface);border-left:3px solid var(--indigo);border-radius:0 8px 8px 0;margin-bottom:2.5rem}
+.post-content{font-size:0.975rem;line-height:1.8;color:#374151}
+.post-content h2{font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:700;color:var(--dark);margin:2.5rem 0 1rem;letter-spacing:-0.02em}
+.post-content h3{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:700;color:var(--dark);margin:2rem 0 0.75rem}
+.post-content p{margin-bottom:1.25rem}
+.post-content ul,.post-content ol{margin:1rem 0 1.25rem 1.5rem}
+.post-content li{margin-bottom:0.4rem}
+.post-content pre{background:#0F172A;border-radius:10px;padding:1.25rem 1.5rem;overflow-x:auto;margin:1.5rem 0}
+.post-content code{font-family:'JetBrains Mono',monospace;font-size:0.82rem}
+.post-content p code{background:#EEF2FF;color:var(--indigo);padding:0.15rem 0.45rem;border-radius:4px;font-size:0.82rem}
+.post-content pre code{color:#E2E8F0;background:none;padding:0}
+.post-content blockquote{border-left:3px solid var(--indigo);padding-left:1rem;color:var(--muted);font-style:italic;margin:1.5rem 0}
+.post-content a{color:var(--indigo);text-decoration:underline}
+/* SHARE */
+.share-section{border-top:1px solid var(--border);padding-top:2rem;margin-top:3rem}
+.share-title{font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem}
+.share-btns{display:flex;gap:0.75rem;flex-wrap:wrap}
+.share-btn{padding:0.55rem 1.25rem;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s}
+.share-twitter{background:#EEF2FF;color:var(--indigo)}
+.share-twitter:hover{background:var(--indigo);color:#fff}
+.share-wa{background:#F0FDF4;color:#16A34A}
+.share-wa:hover{background:#16A34A;color:#fff}
+.share-copy{background:var(--surface);color:var(--muted)}
+.share-copy:hover{background:var(--dark);color:#fff}
+/* BACK TO BLOG */
+.back-section{margin-top:3rem;text-align:center}
+.btn-back{display:inline-flex;align-items:center;gap:0.4rem;padding:0.75rem 1.75rem;background:var(--indigo);color:#fff;border-radius:8px;font-weight:600;font-size:0.9rem;text-decoration:none}
+.btn-back:hover{background:#4338CA}
+footer{background:var(--dark);padding:2rem;text-align:center}
+footer p{font-size:0.8rem;color:rgba(255,255,255,0.3)}
+footer a{color:var(--indigo-light);text-decoration:none;margin-left:1rem}
+.loading{text-align:center;padding:4rem;color:var(--muted)}
+@media(max-width:600px){.post-body-wrap{padding:2rem 1.25rem 4rem}.post-hero{padding:2.5rem 1.25rem 2rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg viewBox="0 0 120 120" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#1B2860"/>
+      <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+      <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+      <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+      <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+      <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    NexaMind <span class="nav-labs">Labs</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="post-hero" class="post-hero">
+  <div class="post-hero-inner">
+    <div class="loading">Loading post…</div>
+  </div>
+</div>
+
+<div class="post-body-wrap" id="post-body-wrap" style="display:none">
+  <div class="post-summary" id="post-summary"></div>
+  <div class="post-content" id="post-content"></div>
+  <div class="share-section">
+    <div class="share-title">Share this post</div>
+    <div class="share-btns">
+      <a class="share-btn share-twitter" id="share-twitter" target="_blank">Share on X / Twitter</a>
+      <a class="share-btn share-wa" id="share-wa" target="_blank">Share on WhatsApp</a>
+      <button class="share-btn share-copy" id="share-copy" onclick="copyLink()">Copy link</button>
+    </div>
+  </div>
+  <div class="back-section">
+    <a href="/blog.html" class="btn-back">← Back to all posts</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 NexaMind Labs <a href="/">Home</a> <a href="/blog.html">Blog</a></p>
+</footer>
+
+<script src="https://unpkg.com/marked@9.1.6/marked.min.js"></script>
+<script>
+const REPO = 'jyothishnarayan/nexamindlabs-website';
+const BRANCH = 'main';
+
+function parseFrontmatter(text) {
+  const match = text.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return { meta: {}, body: text };
+  const meta = {};
+  match[1].split('\n').forEach(line => {
+    const [key, ...rest] = line.split(':');
+    if (key && rest.length) meta[key.trim()] = rest.join(':').trim().replace(/^["']|["']$/g,'');
+  });
+  return { meta, body: text.slice(match[0].length).trim() };
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'});
+}
+
+function initials(name) {
+  return (name||'NL').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href);
+  document.getElementById('share-copy').textContent = '✓ Copied!';
+  setTimeout(() => document.getElementById('share-copy').textContent = 'Copy link', 2000);
+}
+
+async function loadPost() {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+  if (!slug) { window.location.href = '/blog.html'; return; }
+
+  try {
+    const res = await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/posts/${slug}.md`);
+    if (!res.ok) throw new Error('Post not found');
+    const text = await res.text();
+    const { meta, body } = parseFrontmatter(text);
+
+    // Update page title
+    document.title = `${meta.title} — NexaMind Labs`;
+
+    // Hero
+    document.getElementById('post-hero').innerHTML = `
+      <div class="post-hero-inner">
+        <a href="/blog.html" class="back-link">← All posts</a>
+        <div class="post-tag">${meta.category || 'General'}</div>
+        <h1>${meta.title}</h1>
+        <div class="post-meta-row">
+          <div class="author-chip">
+            <div class="author-dot">${initials(meta.author)}</div>
+            <span class="author-name">${meta.author || 'NexaMind Labs'}</span>
+          </div>
+          <div class="dot-sep"></div>
+          <span class="post-date">${formatDate(meta.date)}</span>
+        </div>
+      </div>`;
+
+    // Summary
+    document.getElementById('post-summary').textContent = meta.summary || '';
+
+    // Body
+    marked.setOptions({ breaks: true });
+    document.getElementById('post-content').innerHTML = marked.parse(body);
+
+    // Share links
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(meta.title);
+    document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+    document.getElementById('share-wa').href = `https://wa.me/?text=${title}%20${url}`;
+
+    document.getElementById('post-body-wrap').style.display = 'block';
+  } catch(e) {
+    document.getElementById('post-hero').innerHTML = `
+      <div class="post-hero-inner">
+        <a href="/blog.html" class="back-link">← All posts</a>
+        <h1>Post not found</h1>
+      </div>`;
+  }
+}
+
+loadPost();
+</script>
+</body>
+</html>
