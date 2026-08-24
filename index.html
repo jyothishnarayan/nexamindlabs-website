@@ -319,6 +319,7 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
 @media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:3rem}}
 @media(max-width:600px){.form-row{grid-template-columns:1fr}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -904,7 +905,14 @@ document.querySelectorAll('.srv-card,.t-card,.why-card,.testi-card,.blog-card,.a
   load();
 })();
 
-// Contact form — Formspree AJAX submission
+// Supabase client
+const{createClient}=supabase;
+const db=createClient(
+  'https://mdpsdsprdlxbfhmnkxaa.supabase.co',
+  'sb_publishable_-NcEyQkOLTkzBqlQ-3YaBQ_ueVFK7rA'
+);
+
+// Contact form — Formspree + Supabase
 const form=document.getElementById('contact-form');
 const submitBtn=document.getElementById('form-submit');
 const successMsg=document.getElementById('form-success');
@@ -913,7 +921,7 @@ const errorMsg=document.getElementById('form-error');
 form.addEventListener('submit',async function(e){
   e.preventDefault();
 
-  // Basic validation
+  // Validation
   const name=form.querySelector('[name="Full Name"]').value.trim();
   const email=form.querySelector('[name="email"]').value.trim();
   const topic=form.querySelector('[name="Enquiry Topic"]').value;
@@ -925,7 +933,7 @@ form.addEventListener('submit',async function(e){
     return;
   }
 
-  // Set dynamic subject so each email shows what the enquiry is about
+  // Set dynamic subject
   document.getElementById('form-subject').value=`New enquiry: ${topic} — NexaMind Labs`;
 
   // Loading state
@@ -935,21 +943,33 @@ form.addEventListener('submit',async function(e){
   errorMsg.style.display='none';
 
   try{
+    // 1. Send via Formspree (email notification)
     const data=new FormData(form);
     const res=await fetch(form.action,{
       method:'POST',
       body:data,
       headers:{'Accept':'application/json'}
     });
-    if(res.ok){
-      successMsg.style.display='block';
-      form.reset();
-      submitBtn.textContent='Message sent ✓';
-      setTimeout(()=>{submitBtn.disabled=false;submitBtn.textContent='Send message →'},4000);
-    } else {
+    if(!res.ok){
       const json=await res.json().catch(()=>({}));
-      throw new Error(json.error||'Server error');
+      throw new Error(json.error||'Formspree error');
     }
+
+    // 2. Save to Supabase (permanent record)
+    const{error:dbErr}=await db.from('contact_enquiries').insert({
+      full_name:name,
+      email:email,
+      enquiry_topic:topic,
+      message:message
+    });
+    if(dbErr) console.warn('Supabase save failed (non-critical):',dbErr.message);
+
+    // Success
+    successMsg.style.display='block';
+    form.reset();
+    submitBtn.textContent='Message sent ✓';
+    setTimeout(()=>{submitBtn.disabled=false;submitBtn.textContent='Send message →'},4000);
+
   } catch(err){
     errorMsg.textContent='Something went wrong. Please email us directly at info@nexamindlabs.com';
     errorMsg.style.display='block';
