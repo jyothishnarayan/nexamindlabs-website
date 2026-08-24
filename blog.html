@@ -148,7 +148,7 @@ function renderCards(posts) {
     const t = THUMBS[post.meta.category] || THUMBS.General;
     const slug = post.filename.replace(/\.md$/,'');
     const thumb = post.meta.image
-      ? `<div class="blog-thumb"><img src="${post.meta.image}" alt="${post.meta.title}" loading="lazy"></div>`
+      ? `<div class="blog-thumb" style="background:${t.bg};overflow:hidden;padding:0"><img src="${post.meta.image}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'"></div>`
       : `<div class="blog-thumb" style="background:${t.bg}">${t.icon}</div>`;
     return `
       <a class="blog-card" href="/post.html?slug=${slug}">
