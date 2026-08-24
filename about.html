@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — NexaMind Labs</title>
+<meta name="description" content="18 years of IT experience, one turning point. NexaMind Labs was built to give back — custom AI-powered software for clients and hands-on training for the next generation.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#0D1B3E;--navy:#1B2860;--indigo:#4F46E5;--indigo-light:#818CF8;
+  --teal:#06B6D4;--amber:#F59E0B;--surface:#F5F7FF;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;overflow-x:hidden}
+
+/* NAV */
+nav{background:var(--dark);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.2)}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.6rem;white-space:nowrap}
+.nav-labs{color:var(--indigo-light);font-weight:400;font-size:1.05rem}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.btn{display:inline-flex;align-items:center;padding:0.65rem 1.4rem;border-radius:8px;font-weight:600;font-size:0.875rem;text-decoration:none;transition:all 0.22s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.btn-glow{background:var(--indigo);color:#fff;box-shadow:0 0 20px rgba(79,70,229,0.4)}
+.btn-glow:hover{background:#4338CA;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--indigo);border:2px solid var(--indigo)}
+.btn-outline:hover{background:var(--indigo);color:#fff}
+
+/* HERO */
+.hero{background:var(--dark);padding:5.5rem 2rem 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,0.14) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-60px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:center;position:relative;z-index:1}
+.hero-mark-col{display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.hero-mark-wrap{position:relative;width:220px;height:220px;display:flex;align-items:center;justify-content:center}
+.hero-ring{position:absolute;border-radius:50%;border:1px solid}
+@keyframes ringExpand{0%,100%{transform:scale(0.9);opacity:0.1}50%{transform:scale(1.1);opacity:0.28}}
+.r1{width:210px;height:210px;border-color:rgba(79,70,229,0.5);animation:ringExpand 6s ease-in-out infinite}
+.r2{width:165px;height:165px;border-color:rgba(6,182,212,0.4);animation:ringExpand 8s ease-in-out infinite 2s}
+.r3{width:120px;height:120px;border-color:rgba(245,158,11,0.3);animation:ringExpand 5s ease-in-out infinite 1s}
+.hero-mark-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-align:center}
+.hero-text{}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);padding:0.35rem 1rem;border-radius:100px;display:inline-block;margin-bottom:1.5rem;letter-spacing:0.05em}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2rem,3.8vw,3rem);font-weight:800;color:#fff;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1.25rem}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--indigo-light)}
+.hero-desc{font-size:1rem;color:rgba(255,255,255,0.55);line-height:1.8;max-width:520px}
+.hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.1);flex-wrap:wrap}
+.stat-num{font-family:'Outfit',sans-serif;font-size:1.75rem;font-weight:800;color:#fff;line-height:1}
+.stat-num em{color:var(--indigo-light);font-style:normal}
+.stat-lbl{font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.2rem}
+
+/* STORY */
+.story-sec{background:#fff;padding:6rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem}
+.tag-indigo{color:var(--indigo)}.tag-teal{color:var(--teal)}.tag-amber{color:var(--amber)}
+.sec-title{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,2.8vw,2.4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.15;margin-bottom:2.5rem}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.story-timeline{position:relative;padding-left:2rem}
+.story-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:2px;background:linear-gradient(180deg,var(--indigo),var(--teal),var(--amber))}
+.timeline-item{position:relative;margin-bottom:2.5rem}
+.timeline-item::before{content:'';position:absolute;left:-2.4rem;top:6px;width:12px;height:12px;border-radius:50%;background:var(--indigo);border:2px solid #fff;box-shadow:0 0 0 3px rgba(79,70,229,0.2)}
+.timeline-item:nth-child(2)::before{background:var(--teal);box-shadow:0 0 0 3px rgba(6,182,212,0.2)}
+.timeline-item:nth-child(3)::before{background:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,0.2)}
+.timeline-item:nth-child(4)::before{background:var(--indigo-light);box-shadow:0 0 0 3px rgba(129,140,248,0.2)}
+.timeline-era{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem}
+.timeline-item h3{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:0.4rem}
+.timeline-item p{font-size:0.875rem;color:var(--muted);line-height:1.7}
+.story-text{}
+.story-pullquote{font-family:'Outfit',sans-serif;font-size:1.35rem;font-weight:700;color:var(--dark);line-height:1.4;letter-spacing:-0.02em;margin-bottom:2rem;padding-left:1.5rem;border-left:4px solid var(--indigo)}
+.story-body p{font-size:0.95rem;color:var(--muted);line-height:1.85;margin-bottom:1.4rem}
+.story-body p strong{color:var(--dark);font-weight:600}
+.story-highlight{background:var(--surface);border-radius:14px;padding:1.25rem 1.5rem;margin-top:0.5rem;font-size:0.875rem;color:var(--text);line-height:1.65;border-left:3px solid var(--amber)}
+
+/* VALUES */
+.values-sec{background:var(--dark);padding:5.5rem 2rem}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-top:3rem}
+.value-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.75rem;transition:all 0.3s;opacity:0;transform:translateY(20px)}
+.value-card.show{opacity:1;transform:translateY(0)}
+.value-card:hover{background:rgba(79,70,229,0.1);border-color:rgba(79,70,229,0.25)}
+.value-ico{font-size:1.75rem;margin-bottom:1rem}
+.value-card h3{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.4rem}
+.value-card p{font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.65}
+
+/* TWO MISSIONS */
+.missions-sec{background:var(--surface);padding:5.5rem 2rem}
+.missions-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem}
+.mission-card{background:#fff;border-radius:20px;padding:2.5rem;border:1px solid var(--border);transition:all 0.3s;opacity:0;transform:translateY(20px)}
+.mission-card.show{opacity:1;transform:translateY(0)}
+.mission-card:hover{box-shadow:0 20px 50px rgba(0,0,0,0.08);transform:translateY(-4px)}
+.mission-stripe{height:4px;border-radius:2px;margin-bottom:1.75rem}
+.ms-tech{background:linear-gradient(90deg,var(--indigo),var(--teal))}
+.ms-edu{background:linear-gradient(90deg,var(--amber),#EF4444)}
+.mission-card h3{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:0.6rem;letter-spacing:-0.02em}
+.mission-card>p{font-size:0.9rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem}
+.mission-points{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.mission-points li{font-size:0.85rem;color:var(--text);padding-left:1.4rem;position:relative}
+.mission-points li::before{content:'→';position:absolute;left:0;color:var(--indigo);font-size:0.75rem;top:0.05rem}
+.ms-edu .mission-points li::before{color:var(--amber)}
+
+/* CTA */
+.cta-sec{background:linear-gradient(135deg,var(--navy) 0%,var(--dark) 60%,#1e1b4b 100%);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);pointer-events:none}
+.cta-sec h2{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,3vw,2.6rem);font-weight:800;color:#fff;margin-bottom:0.9rem;letter-spacing:-0.025em;position:relative}
+.cta-sec p{color:rgba(255,255,255,0.55);font-size:0.975rem;margin-bottom:2.25rem;position:relative}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+.btn-outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4)}
+.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,0.1)}
+
+/* FOOTER */
+footer{background:#070e24;padding:3rem 2rem 2rem;text-align:center}
+.ft-logo{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:0.5rem}
+.ft-logo span{color:var(--indigo-light);font-weight:400}
+.ft-links{display:flex;justify-content:center;gap:2rem;margin:1rem 0 1.5rem;flex-wrap:wrap}
+.ft-links a{font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s}
+.ft-links a:hover{color:#fff}
+.ft-copy{font-size:0.78rem;color:rgba(255,255,255,0.25)}
+
+/* MOBILE */
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-toggle span{width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px}
+@media(max-width:900px){.hero-inner,.story-grid,.missions-grid{grid-template-columns:1fr}.hero-mark-col{display:none}}
+@media(max-width:600px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,27,62,0.98);flex-direction:column;padding:1rem 2rem 1.5rem;gap:1rem}
+  .nav-links.open{display:flex}.nav-toggle{display:flex}
+  .hero,.story-sec,.values-sec,.missions-sec,.cta-sec{padding:4rem 1.25rem}
+}
+@media(prefers-reduced-motion:reduce){.r1,.r2,.r3,.value-card,.mission-card{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <svg viewBox="0 0 120 120" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#1B2860"/>
+      <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+      <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+      <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+      <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+      <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    NexaMind <span class="nav-labs">Labs</span>
+  </a>
+  <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/training.html">Training</a></li>
+    <li><a href="/about.html" class="active">About</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="/#contact" class="btn btn-glow" style="padding:0.55rem 1.2rem">Get in touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark-col">
+      <div class="hero-mark-wrap">
+        <div class="hero-ring r1"></div>
+        <div class="hero-ring r2"></div>
+        <div class="hero-ring r3"></div>
+        <svg viewBox="0 0 120 120" width="120" height="120" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:2">
+          <rect width="120" height="120" rx="22" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+          <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+          <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+          <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+          <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+          <circle cx="60" cy="60" r="3.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="hero-mark-label">NEXAMIND LABS · BENGALURU</div>
+    </div>
+    <div class="hero-text">
+      <div class="hero-tag">// Our story</div>
+      <h1>18 years of learning.<br>Now <em>giving it back.</em></h1>
+      <p class="hero-desc">NexaMind Labs was built at the intersection of two convictions — that AI changes what software can do, and that the best thing an experienced practitioner can do is make sure the next generation doesn't have to figure it all out alone.</p>
+      <div class="hero-stats">
+        <div><div class="stat-num">18<em>+</em></div><div class="stat-lbl">Years in IT</div></div>
+        <div><div class="stat-num">4<em> roles</em></div><div class="stat-lbl">Dev → PM → VP Ops</div></div>
+        <div><div class="stat-num">2<em> missions</em></div><div class="stat-lbl">Build & train</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story-sec">
+  <div class="container">
+    <div class="story-grid">
+      <!-- Timeline -->
+      <div>
+        <div class="sec-tag tag-indigo">// The journey</div>
+        <h2 class="sec-title">From the inside out</h2>
+        <div class="story-timeline">
+          <div class="timeline-item">
+            <div class="timeline-era">The beginning</div>
+            <h3>Starting as a developer</h3>
+            <p>Hands-on in the code. Learning how software is really built — not from specs but from late nights, debugging sessions, and shipped products.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-era">The middle years</div>
+            <h3>Growing into project management</h3>
+            <p>Stepping back from the code and into the system. How teams work, how timelines fail, how clients think, and what actually makes a product succeed.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-era">Senior leadership</div>
+            <h3>VP of Technical Operations</h3>
+            <p>Strategy, architecture, and accountability. Seeing the full picture — from business goals down to infrastructure decisions — and understanding how they connect.</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-era">The turning point</div>
+            <h3>Starting NexaMind Labs</h3>
+            <p>After 18 years of the industry investing in me, it was time to invest back. NexaMind Labs was the answer to two questions that wouldn't go away.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story text -->
+      <div class="story-text">
+        <div class="story-pullquote">
+          "The IT industry fed me for 18 years. Now it's my turn to feed the industry back."
+        </div>
+        <div class="story-body">
+          <p>Two questions kept surfacing after nearly two decades in IT. <strong>First: why do so many developers fall behind as the industry shifts?</strong> Not because they lack talent — but because upskilling opportunities are generic, theoretical, and disconnected from what's actually being built today.</p>
+
+          <p><strong>Second: why do so many students struggle with subjects they're perfectly capable of mastering?</strong> Not because the concepts are too hard — but because they're being taught to memorise, not to understand. A tutor who rushes through syllabus points isn't a companion. They're a timer.</p>
+
+          <p>NexaMind Labs was built to answer both. On the technology side, the timing was right — AI had shifted from a buzzword to a genuine companion in software development. Building intelligent applications, mobile tools that solve real day-to-day problems, SaaS products with AI woven into their core — this is the work that matters now.</p>
+
+          <p>On the training side, the conviction was simpler: <strong>quality teaching from someone who has actually done it</strong> is worth more than any slide deck. Every course we run uses live projects. Every coaching session we hold is built around genuine understanding, not exam shortcuts.</p>
+
+          <div class="story-highlight">
+            💡 The unusual combination of tech services and education isn't accidental. Both come from the same belief: the people who know the industry have a responsibility to share what they know — with clients, with professionals, and with students.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-sec">
+  <div class="container">
+    <div class="sec-tag tag-teal" style="text-align:center">// What we believe</div>
+    <h2 class="sec-title" style="color:#fff;text-align:center;margin-bottom:0">The principles we build on</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-ico">🤝</div>
+        <h3>AI as a companion, not a replacement</h3>
+        <p>We build AI into software to amplify what humans can do — not to automate humans out of the picture. Every tool we build is designed to work alongside people.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-ico">🔨</div>
+        <h3>Practitioners teach best</h3>
+        <p>Our trainers aren't academic instructors. They're people who are actively building — which means what they teach is what's actually being used in production, right now.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-ico">🧭</div>
+        <h3>Understand, don't memorise</h3>
+        <p>Whether it's a CBSE student or an IT professional, we teach for understanding. Concepts that are truly understood don't need to be memorised — they're remembered.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-ico">📐</div>
+        <h3>Quality over volume</h3>
+        <p>Small batches. Genuine attention. Real projects. We'd rather do fewer things properly than scale up before the quality is right.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-ico">🔄</div>
+        <h3>Give back to the industry</h3>
+        <p>18 years of being shaped by IT created a responsibility — to pass on what works, to warn about what doesn't, and to help the next generation find their footing faster.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-ico">🎯</div>
+        <h3>Real problems, real solutions</h3>
+        <p>We build for day-to-day reality — applications that address actual pain points, not impressive demos. If it doesn't solve a real problem, we don't build it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO MISSIONS -->
+<section class="missions-sec">
+  <div class="container">
+    <div class="sec-tag tag-indigo">// What we do</div>
+    <h2 class="sec-title" style="color:var(--dark)">Two missions. One studio.</h2>
+    <div class="missions-grid">
+      <div class="mission-card">
+        <div class="mission-stripe ms-tech"></div>
+        <h3>Building intelligent software</h3>
+        <p>Custom AI-powered applications, mobile apps that address real day-to-day problems, and SaaS products built from the ground up — with AI as a companion in every layer of the product.</p>
+        <ul class="mission-points">
+          <li>AI-integrated custom applications</li>
+          <li>Mobile apps (Android & iOS)</li>
+          <li>SaaS product development</li>
+          <li>Freelance IT collaboration</li>
+        </ul>
+      </div>
+      <div class="mission-card">
+        <div class="mission-stripe ms-edu"></div>
+        <h3>Training the next generation</h3>
+        <p>Hands-on courses for IT professionals who want to stay current, and concept-first CBSE coaching for school students — both built on the same principle: understanding over memorisation.</p>
+        <ul class="mission-points">
+          <li>NexaMind Pro — live project-based IT courses</li>
+          <li>Bright Future — CBSE coaching companion</li>
+          <li>Online and offline sessions</li>
+          <li>Small batches, genuine attention</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="container">
+    <h2>Want to work together<br>or learn with us?</h2>
+    <p>Whether you have a project in mind or want to join a training programme — we'd love to hear from you.</p>
+    <div class="cta-btns">
+      <a href="/#contact" class="btn btn-glow" style="font-size:0.975rem;padding:0.9rem 2rem">Get in touch</a>
+      <a href="/training.html" class="btn btn-outline-white" style="font-size:0.975rem;padding:0.9rem 2rem">Explore training</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">
+    <svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#1B2860"/>
+      <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+      <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+      <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+      <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+      <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    NexaMind <span>Labs</span>
+  </div>
+  <div class="ft-links">
+    <a href="/">Home</a>
+    <a href="/#services">Services</a>
+    <a href="/training.html">Training</a>
+    <a href="/blog.html">Blog</a>
+    <a href="mailto:info@nexamindlabs.com">info@nexamindlabs.com</a>
+  </div>
+  <p class="ft-copy">© 2026 NexaMind Labs. All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.value-card, .mission-card').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
