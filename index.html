@@ -641,7 +641,7 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
             <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
             <circle cx="60" cy="60" r="3.5" fill="white"/>
           </svg>
-          <div class="about-vis-sub">NEXAMIND LABS · Bengaluru</div>
+          <div class="about-vis-sub">NEXAMIND LABS · TRIVANDRUM</div>
           <div class="about-badge-row">
             <span class="about-pill">AI-first</span>
             <span class="about-pill">Est. 2024</span>
@@ -669,29 +669,31 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
       </div>
       <a href="/blog.html" class="btn btn-outline">View all posts</a>
     </div>
-    <div class="blog-grid">
-      <div class="blog-card">
-        <div class="blog-thumb" style="background:linear-gradient(135deg,#EEF2FF,#C7D2FE)">🤖</div>
+    <!-- Blog cards load dynamically from latest posts -->
+    <div class="blog-grid" id="home-blog-grid">
+      <!-- Skeleton loaders while fetching -->
+      <div class="blog-card" style="opacity:0.4">
+        <div class="blog-thumb" style="background:#F1F5F9"></div>
         <div class="blog-body">
-          <span class="blog-tag">AI</span>
-          <h4>Building a RAG pipeline with pgvector and Supabase</h4>
-          <p>A practical walkthrough of semantic search for your applications using open-source tools.</p>
+          <div style="height:12px;background:#E2E8F0;border-radius:4px;width:40%;margin-bottom:12px"></div>
+          <div style="height:16px;background:#E2E8F0;border-radius:4px;margin-bottom:8px"></div>
+          <div style="height:14px;background:#F1F5F9;border-radius:4px;width:80%"></div>
         </div>
       </div>
-      <div class="blog-card">
-        <div class="blog-thumb" style="background:linear-gradient(135deg,#FFFBEB,#FDE68A)">📚</div>
+      <div class="blog-card" style="opacity:0.3">
+        <div class="blog-thumb" style="background:#F1F5F9"></div>
         <div class="blog-body">
-          <span class="blog-tag">Education</span>
-          <h4>Why CBSE students struggle with Maths — and how to fix it</h4>
-          <p>Common patterns we've observed, and an approach that builds real exam confidence.</p>
+          <div style="height:12px;background:#E2E8F0;border-radius:4px;width:40%;margin-bottom:12px"></div>
+          <div style="height:16px;background:#E2E8F0;border-radius:4px;margin-bottom:8px"></div>
+          <div style="height:14px;background:#F1F5F9;border-radius:4px;width:80%"></div>
         </div>
       </div>
-      <div class="blog-card">
-        <div class="blog-thumb" style="background:linear-gradient(135deg,#F0FDFA,#99F6E4)">🚀</div>
+      <div class="blog-card" style="opacity:0.2">
+        <div class="blog-thumb" style="background:#F1F5F9"></div>
         <div class="blog-body">
-          <span class="blog-tag">Dev</span>
-          <h4>Static to dynamic: migrating your site without downtime</h4>
-          <p>How we move from plain HTML to a full Next.js app on Cloudflare without a single minute of downtime.</p>
+          <div style="height:12px;background:#E2E8F0;border-radius:4px;width:40%;margin-bottom:12px"></div>
+          <div style="height:16px;background:#E2E8F0;border-radius:4px;margin-bottom:8px"></div>
+          <div style="height:14px;background:#F1F5F9;border-radius:4px;width:80%"></div>
         </div>
       </div>
     </div>
@@ -746,10 +748,9 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
         <div class="form-msg" id="form-success">✓ Message sent! We'll get back to you within 24 hours.</div>
         <div class="form-msg error" id="form-error" style="display:none">Something went wrong. Please try emailing us directly at info@nexamindlabs.com</div>
         <form id="contact-form" action="https://formspree.io/f/xwlelpka" method="POST" novalidate>
-          <!-- Hidden field to direct reply to right address -->
-          <input type="hidden" name="_replyto" value="info@nexamindlabs.com">
+          <!-- _subject is set dynamically by JS to include the topic -->
           <input type="hidden" name="_subject" id="form-subject" value="New enquiry — NexaMind Labs website">
-          
+
           <div class="form-row">
             <div class="form-group">
               <label for="fname">Your name</label>
@@ -812,7 +813,7 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
         <h5>Contact</h5>
         <ul>
           <li><a href="mailto:info@nexamindlabs.com">info@nexamindlabs.com</a></li>
-          <li><a href="#">Bengaluru, India</a></li>
+          <li><a href="https://maps.google.com/?q=Bengaluru,India">Bengaluru, India</a></li>
         </ul>
       </div>
     </div>
@@ -842,6 +843,65 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:0.1});
 document.querySelectorAll('.srv-card,.t-card,.why-card,.testi-card,.blog-card,.about-visual,.about-txt').forEach(el=>obs.observe(el));
 
+// Dynamic blog loader — shows 3 latest posts on homepage
+(function(){
+  const REPO='jyothishnarayan/nexamindlabs-website';
+  const BRANCH='main';
+  const THUMBS={
+    AI:{bg:'linear-gradient(135deg,#EEF2FF,#C7D2FE)',icon:'🤖'},
+    Dev:{bg:'linear-gradient(135deg,#F0FDFA,#99F6E4)',icon:'🚀'},
+    Education:{bg:'linear-gradient(135deg,#FFFBEB,#FDE68A)',icon:'📚'},
+    SaaS:{bg:'linear-gradient(135deg,#F0FDF4,#BBF7D0)',icon:'⚡'},
+    General:{bg:'linear-gradient(135deg,#F8FAFC,#E2E8F0)',icon:'💡'}
+  };
+  function parseFM(t){
+    const m=t.match(/^---\n([\s\S]*?)\n---/);
+    if(!m)return{};
+    const o={};
+    m[1].split('\n').forEach(l=>{
+      const p=l.split(':');
+      const k=p[0].trim();
+      const v=p.slice(1).join(':').trim().replace(/^["']|["']$/g,'');
+      if(k)o[k]=v;
+    });
+    return o;
+  }
+  async function load(){
+    const g=document.getElementById('home-blog-grid');
+    if(!g)return;
+    try{
+      const r=await fetch('https://api.github.com/repos/'+REPO+'/contents/posts?ref='+BRANCH);
+      if(!r.ok)throw 0;
+      const files=await r.json();
+      const mds=files.filter(f=>f.name.endsWith('.md'));
+      const posts=await Promise.all(mds.map(async f=>{
+        const rx=await fetch(f.download_url);
+        const tx=await rx.text();
+        return{meta:parseFM(tx),fn:f.name};
+      }));
+      posts.sort((a,b)=>new Date(b.meta.date)-new Date(a.meta.date));
+      g.innerHTML=posts.slice(0,3).map(p=>{
+        const t=THUMBS[p.meta.category]||THUMBS.General;
+        const s=p.fn.replace(/\.md$/,'');
+        const sum=(p.meta.summary||'').substring(0,120);
+        const th=p.meta.image
+          ?`<div class="blog-thumb" style="overflow:hidden;padding:0"><img src="${p.meta.image}" alt="${p.meta.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>`
+          :`<div class="blog-thumb" style="background:${t.bg}">${t.icon}</div>`;
+        return `<a class="blog-card show" href="/post.html?slug=${s}" style="text-decoration:none;color:inherit">
+          ${th}
+          <div class="blog-body">
+            <span class="blog-tag">${p.meta.category||'General'}</span>
+            <h4>${p.meta.title}</h4>
+            <p>${sum}${sum.length===120?'…':''}</p>
+          </div></a>`;
+      }).join('');
+    }catch(e){
+      g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2rem"><a href="/blog.html" class="btn btn-outline">Read the blog →</a></div>';
+    }
+  }
+  load();
+})();
+
 // Contact form — Formspree AJAX submission
 const form=document.getElementById('contact-form');
 const submitBtn=document.getElementById('form-submit');
@@ -862,9 +922,10 @@ form.addEventListener('submit',async function(e){
     successMsg.style.display='none';
     return;
   }
-// Set dynamic subject so each email shows what the enquiry is about
+
+  // Set dynamic subject so each email shows what the enquiry is about
   document.getElementById('form-subject').value=`New enquiry: ${topic} — NexaMind Labs`;
-  
+
   // Loading state
   submitBtn.disabled=true;
   submitBtn.textContent='Sending…';
