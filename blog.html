@@ -31,7 +31,9 @@ nav{background:var(--dark);padding:1rem 2rem;display:flex;align-items:center;jus
 .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.75rem}
 .blog-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--border);transition:all 0.3s;text-decoration:none;color:inherit;display:flex;flex-direction:column}
 .blog-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.08)}
-.blog-thumb{height:190px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;flex-shrink:0}
+.blog-thumb{height:190px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;flex-shrink:0;overflow:hidden}
+.blog-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s}
+.blog-card:hover .blog-thumb img{transform:scale(1.05)}
 .blog-body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
 .blog-meta{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem}
 .blog-tag{font-size:0.7rem;font-weight:700;color:var(--indigo);background:rgba(79,70,229,0.09);padding:0.22rem 0.75rem;border-radius:100px}
@@ -145,9 +147,12 @@ function renderCards(posts) {
   grid.innerHTML = filtered.map(post => {
     const t = THUMBS[post.meta.category] || THUMBS.General;
     const slug = post.filename.replace(/\.md$/,'');
+    const thumb = post.meta.image
+      ? `<div class="blog-thumb"><img src="${post.meta.image}" alt="${post.meta.title}" loading="lazy"></div>`
+      : `<div class="blog-thumb" style="background:${t.bg}">${t.icon}</div>`;
     return `
       <a class="blog-card" href="/post.html?slug=${slug}">
-        <div class="blog-thumb" style="background:${t.bg}">${t.icon}</div>
+        ${thumb}
         <div class="blog-body">
           <div class="blog-meta">
             <span class="blog-tag">${post.meta.category || 'General'}</span>
