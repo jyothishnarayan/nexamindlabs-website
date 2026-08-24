@@ -316,6 +316,10 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
 .btn-submit{width:100%;padding:0.95rem;font-size:1rem;font-weight:700;background:var(--indigo);color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:-0.01em;transition:all 0.22s}
 .btn-submit:hover{background:#4338CA;box-shadow:0 0 30px rgba(79,70,229,0.4)}
 .btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+.form-group input.invalid,.form-group select.invalid,.form-group textarea.invalid{border-color:#EF4444;background:rgba(239,68,68,0.06)}
+.form-group input.valid,.form-group select.valid,.form-group textarea.valid{border-color:rgba(16,185,129,0.5)}
+.field-error{font-size:0.72rem;color:#FCA5A5;margin-top:0.35rem;display:none}
+.field-error.show{display:block}
 @media(max-width:900px){.contact-grid{grid-template-columns:1fr;gap:3rem}}
 @media(max-width:600px){.form-row{grid-template-columns:1fr}}
 </style>
@@ -757,10 +761,12 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
             <div class="form-group">
               <label for="fname">Your name</label>
               <input type="text" id="fname" name="Full Name" placeholder="Full name" required>
+              <span class="field-error"></span>
             </div>
             <div class="form-group">
               <label for="femail">Email address</label>
               <input type="email" id="femail" name="email" placeholder="you@example.com" required>
+              <span class="field-error"></span>
             </div>
           </div>
 
@@ -776,11 +782,13 @@ footer{background:#070e24;padding:3.5rem 2rem 2rem}
               <option value="Bright Future Coaching (CBSE students)">Bright Future Coaching (CBSE students)</option>
               <option value="General Enquiry">General Enquiry</option>
             </select>
+              <span class="field-error"></span>
           </div>
 
           <div class="form-group">
             <label for="fmessage">Message</label>
-            <textarea id="fmessage" name="Message" rows="5" placeholder="Tell us what you're looking for…" required></textarea>
+            <textarea id="fmessage" name="Message" rows="5" placeholder="Tell us what you're looking for… (min 10 characters)" required></textarea>
+          <span class="field-error"></span>
           </div>
 
           <button type="submit" class="btn-submit" id="form-submit">Send message →</button>
@@ -845,6 +853,41 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
 },{threshold:0.1});
 document.querySelectorAll('.srv-card,.t-card,.why-card,.testi-card,.blog-card,.about-visual,.about-txt').forEach(el=>obs.observe(el));
+
+// Live field validation on blur
+(function(){
+  const emailRx=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRx=/^[\+]?[\d\s\-\(\)]{7,15}$/;
+  const rules={
+    'Full Name':(v)=>v.length>=3?null:'Name must be at least 3 characters',
+    'email':(v)=>emailRx.test(v)?null:'Enter a valid email address',
+    'phone':(v)=>!v||phoneRx.test(v)?null:'Enter a valid phone number',
+    'Enquiry Topic':(v)=>v?null:'Please select a topic',
+    'Message':(v)=>v.length>=10?null:'Message must be at least 10 characters'
+  };
+  const cf=document.getElementById('contact-form');
+  if(!cf)return;
+  Object.keys(rules).forEach(name=>{
+    const el=cf.querySelector('[name="'+name+'"]');
+    if(!el)return;
+    el.addEventListener('blur',()=>{
+      const err=rules[name](el.value.trim());
+      const errEl=el.parentElement.querySelector('.field-error');
+      el.classList.toggle('invalid',!!err);
+      el.classList.toggle('valid',!err&&el.value.trim()!=='');
+      if(errEl){errEl.textContent=err||'';errEl.classList.toggle('show',!!err);}
+    });
+    el.addEventListener('input',()=>{
+      if(el.classList.contains('invalid')){
+        const err=rules[name](el.value.trim());
+        const errEl=el.parentElement.querySelector('.field-error');
+        el.classList.toggle('invalid',!!err);
+        el.classList.toggle('valid',!err&&el.value.trim()!=='');
+        if(errEl){errEl.textContent=err||'';errEl.classList.toggle('show',!!err);}
+      }
+    });
+  });
+})();
 
 // Dynamic blog loader — shows 3 latest posts on homepage
 (function(){
@@ -921,17 +964,40 @@ const errorMsg=document.getElementById('form-error');
 form.addEventListener('submit',async function(e){
   e.preventDefault();
 
-  // Validation
-  const name=form.querySelector('[name="Full Name"]').value.trim();
-  const email=form.querySelector('[name="email"]').value.trim();
-  const topic=form.querySelector('[name="Enquiry Topic"]').value;
-  const message=form.querySelector('[name="Message"]').value.trim();
-  if(!name||!email||!topic||!message){
-    errorMsg.textContent='Please fill in all fields before sending.';
+  // ── Validation helpers ──
+  const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex=/^[\+]?[\d\s\-\(\)]{7,15}$/;
+
+  function setField(name,valid,msg){
+    const el=form.querySelector('[name="'+name+'"]');
+    if(!el)return true;
+    const errEl=el.parentElement.querySelector('.field-error');
+    el.classList.toggle('invalid',!valid);
+    el.classList.toggle('valid',valid);
+    if(errEl){errEl.textContent=msg||'';errEl.classList.toggle('show',!valid);}
+    return valid;
+  }
+
+  const nameVal=form.querySelector('[name="Full Name"]').value.trim();
+  const emailVal=form.querySelector('[name="email"]').value.trim();
+  const phoneVal=form.querySelector('[name="phone"]')?.value.trim()||'';
+  const topicVal=form.querySelector('[name="Enquiry Topic"]').value;
+  const messageVal=form.querySelector('[name="Message"]').value.trim();
+
+  const v1=setField('Full Name',nameVal.length>=3,nameVal?'Name must be at least 3 characters':'Name is required');
+  const v2=setField('email',emailRegex.test(emailVal),emailVal?'Enter a valid email address':'Email is required');
+  const v3=setField('phone',!phoneVal||phoneRegex.test(phoneVal),'Enter a valid phone number (digits, spaces, + and - only)');
+  const v4=setField('Enquiry Topic',!!topicVal,'Please select a topic');
+  const v5=setField('Message',messageVal.length>=10,messageVal?'Message must be at least 10 characters':'Message is required');
+
+  if(!v1||!v2||!v3||!v4||!v5){
+    errorMsg.textContent='Please fix the errors above before sending.';
     errorMsg.style.display='block';
     successMsg.style.display='none';
     return;
   }
+  // Clear any previous field errors
+  errorMsg.style.display='none';
 
   // Set dynamic subject
   document.getElementById('form-subject').value=`New enquiry: ${topic} — NexaMind Labs`;
