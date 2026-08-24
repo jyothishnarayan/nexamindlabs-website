@@ -885,7 +885,7 @@ document.querySelectorAll('.srv-card,.t-card,.why-card,.testi-card,.blog-card,.a
         const s=p.fn.replace(/\.md$/,'');
         const sum=(p.meta.summary||'').substring(0,120);
         const th=p.meta.image
-          ?`<div class="blog-thumb" style="overflow:hidden;padding:0"><img src="${p.meta.image}" alt="${p.meta.title}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>`
+          ?`<div class="blog-thumb" style="overflow:hidden;padding:0;background:${t.bg}"><img src="${p.meta.image}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" onerror="this.style.display='none'"></div>`
           :`<div class="blog-thumb" style="background:${t.bg}">${t.icon}</div>`;
         return `<a class="blog-card show" href="/post.html?slug=${s}" style="text-decoration:none;color:inherit">
           ${th}
