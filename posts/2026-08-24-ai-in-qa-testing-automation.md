@@ -4,7 +4,7 @@ date: 2026-08-24T11:00:00.000Z
 author: Jyothish Narayan
 category: AI
 summary: A practical guide for QA engineers and developers on integrating AI into testing workflows — from generating test cases automatically to building self-healing automation scripts that adapt when the UI changes.
-image: /images/thumb-ai-qa.png.png
+image: thumb-ai-qa.png
 ---
 
 Manual testing is slow. Traditional automation is brittle — change one CSS class and half your test suite breaks. AI changes both of those equations fundamentally. In this guide we'll walk through how to bring AI into your QA workflow practically, starting from day one with no major tooling overhaul required.
