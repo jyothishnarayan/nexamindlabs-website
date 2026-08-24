@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Programmes — NexaMind Labs</title>
+<meta name="description" content="NexaMind Labs offers two training tracks — NexaMind Pro for IT professionals and Bright Future CBSE coaching for school students. Enrol today.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#0D1B3E;--navy:#1B2860;--indigo:#4F46E5;--indigo-light:#818CF8;
+  --teal:#06B6D4;--amber:#F59E0B;--amber-light:#FCD34D;
+  --surface:#F5F7FF;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;overflow-x:hidden}
+
+/* NAV */
+nav{background:var(--dark);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.2)}
+.nav-logo{font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.6rem;white-space:nowrap}
+.nav-labs{color:var(--indigo-light);font-weight:400;font-size:1.05rem}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border-radius:8px;font-weight:600;font-size:0.875rem;text-decoration:none;transition:all 0.22s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+.btn-glow{background:var(--indigo);color:#fff;box-shadow:0 0 20px rgba(79,70,229,0.4)}
+.btn-glow:hover{background:#4338CA;transform:translateY(-1px)}
+.btn-amber{background:var(--amber);color:#0F172A;font-weight:700}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--indigo);border:2px solid var(--indigo)}
+.btn-outline:hover{background:var(--indigo);color:#fff}
+.btn-white{background:#fff;color:var(--navy);font-weight:700}
+.btn-white:hover{background:rgba(255,255,255,0.9);transform:translateY(-1px)}
+
+/* HERO */
+.hero{background:var(--dark);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,0.15) 0%,transparent 70%);pointer-events:none}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);padding:0.35rem 1rem;border-radius:100px;display:inline-block;margin-bottom:1.5rem;letter-spacing:0.05em}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;color:#fff;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1rem}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--indigo-light)}
+.hero p{font-size:1rem;color:rgba(255,255,255,0.55);max-width:520px;margin:0 auto 2.5rem;line-height:1.75}
+.hero-tracks{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.track-pill{padding:0.6rem 1.5rem;border-radius:100px;font-size:0.875rem;font-weight:600;text-decoration:none;transition:all 0.2s}
+.tp-pro{background:rgba(79,70,229,0.2);color:var(--indigo-light);border:1px solid rgba(79,70,229,0.3)}
+.tp-pro:hover{background:var(--indigo);color:#fff}
+.tp-bright{background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3)}
+.tp-bright:hover{background:var(--amber);color:#0F172A}
+
+/* SECTIONS */
+.sec{padding:5rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem}
+.tag-indigo{color:var(--indigo)}.tag-amber{color:var(--amber)}.tag-teal{color:var(--teal)}
+.sec-title{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,2.8vw,2.4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.15;margin-bottom:0.9rem}
+
+/* TRACK CARDS */
+.tracks-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.track-card{border-radius:24px;padding:2.5rem;position:relative;overflow:hidden}
+.track-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05)}
+.tc-pro{background:linear-gradient(145deg,#312e81,#4F46E5)}
+.tc-bright{background:linear-gradient(145deg,#78350f,#F59E0B)}
+.track-badge{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.15);color:#fff;padding:0.28rem 0.85rem;border-radius:100px;display:inline-block;margin-bottom:1.25rem}
+.track-card h2{font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:0.6rem;letter-spacing:-0.02em}
+.track-card>p{font-size:0.9rem;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:1.5rem}
+.track-list{list-style:none;margin-bottom:2rem}
+.track-list li{font-size:0.875rem;color:rgba(255,255,255,0.88);padding:0.4rem 0 0.4rem 1.7rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.1)}
+.track-list li:last-child{border-bottom:none}
+.track-list li::before{content:'✓';position:absolute;left:0;font-weight:800;opacity:0.7}
+.track-price{display:flex;align-items:baseline;gap:0.4rem;margin-bottom:1.75rem}
+.price-label{font-size:0.75rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em}
+.price-note{font-size:0.8rem;color:rgba(255,255,255,0.5)}
+
+/* DETAIL SECTIONS */
+.detail-sec{padding:5rem 2rem}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.detail-visual{border-radius:20px;padding:2.5rem;height:100%}
+.dv-pro{background:linear-gradient(145deg,#1e1b4b,#312e81)}
+.dv-bright{background:linear-gradient(145deg,#451a03,#78350f)}
+.dv-title{font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:1.5rem}
+.module-list{list-style:none;display:flex;flex-direction:column;gap:0.75rem}
+.module-item{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem}
+.module-ico{font-size:1.1rem;flex-shrink:0}
+.module-text h4{font-family:'Outfit',sans-serif;font-size:0.875rem;font-weight:600;color:#fff}
+.module-text p{font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:0.1rem}
+.detail-info h3{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:700;color:var(--dark);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.detail-info p{font-size:0.92rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem}
+.info-pills{display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.75rem}
+.info-pill{font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border-radius:100px;background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.highlight-box{background:var(--surface);border-left:3px solid var(--indigo);border-radius:0 10px 10px 0;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.875rem;color:var(--text);line-height:1.6}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.6rem;margin-bottom:1.5rem}
+.subject-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;font-weight:600;color:var(--text);text-align:center}
+
+/* ENROLMENT FORM */
+.enrol-sec{background:var(--dark);padding:5.5rem 2rem}
+.enrol-inner{max-width:800px;margin:0 auto}
+.enrol-header{text-align:center;margin-bottom:3rem}
+.enrol-header h2{font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,2.8vw,2.2rem);font-weight:800;color:#fff;letter-spacing:-0.025em;margin-bottom:0.75rem}
+.enrol-header p{font-size:0.92rem;color:rgba(255,255,255,0.5);max-width:480px;margin:0 auto}
+
+/* Track toggle */
+.track-toggle{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:2.5rem;background:rgba(255,255,255,0.05);border-radius:14px;padding:0.5rem}
+.tt-btn{padding:0.9rem;border-radius:10px;border:none;background:transparent;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;color:rgba(255,255,255,0.5);transition:all 0.25s;display:flex;flex-direction:column;align-items:center;gap:0.2rem}
+.tt-btn span{font-size:0.72rem;font-weight:400;font-family:'Inter',sans-serif}
+.tt-btn.active-pro{background:var(--indigo);color:#fff;box-shadow:0 4px 16px rgba(79,70,229,0.3)}
+.tt-btn.active-bright{background:var(--amber);color:#0F172A;box-shadow:0 4px 16px rgba(245,158,11,0.3)}
+
+/* Form */
+.enrol-form-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:2.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.8rem 1rem;font-size:0.9rem;color:#fff;font-family:'Inter',sans-serif;transition:all 0.2s;outline:none;resize:none}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.25)}
+.form-group select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;color:rgba(255,255,255,0.7)}
+.form-group select option{background:#1B2860;color:#fff}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--indigo);background:rgba(79,70,229,0.08)}
+.form-group select.bright-focus:focus{border-color:var(--amber);background:rgba(245,158,11,0.06)}
+.track-fields{display:none}.track-fields.show{display:block}
+.form-msg{font-size:0.82rem;padding:0.75rem 1rem;border-radius:8px;margin-bottom:1.25rem;display:none}
+.msg-success{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6EE7B7;display:block}
+.msg-error{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#FCA5A5;display:block}
+.btn-enrol{width:100%;padding:1rem;font-size:1rem;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.22s;letter-spacing:-0.01em}
+.btn-enrol:disabled{opacity:0.6;cursor:not-allowed}
+.btn-enrol-pro{background:var(--indigo);color:#fff}
+.btn-enrol-pro:hover:not(:disabled){background:#4338CA;box-shadow:0 0 30px rgba(79,70,229,0.4)}
+.btn-enrol-bright{background:var(--amber);color:#0F172A}
+.btn-enrol-bright:hover:not(:disabled){background:var(--amber-light)}
+
+/* FAQ */
+.faq-sec{padding:5rem 2rem;background:var(--surface)}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2.5rem}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+.faq-item h4{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:700;color:var(--dark);margin-bottom:0.5rem}
+.faq-item p{font-size:0.85rem;color:var(--muted);line-height:1.65}
+
+/* FOOTER */
+footer{background:#070e24;padding:3rem 2rem 2rem;text-align:center}
+.ft-logo{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:0.5rem}
+.ft-logo span{color:var(--indigo-light);font-weight:400}
+.ft-links{display:flex;justify-content:center;gap:2rem;margin:1rem 0 1.5rem;flex-wrap:wrap}
+.ft-links a{font-size:0.82rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s}
+.ft-links a:hover{color:#fff}
+.ft-copy{font-size:0.78rem;color:rgba(255,255,255,0.25)}
+
+/* MOBILE */
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-toggle span{width:22px;height:2px;background:rgba(255,255,255,0.8);border-radius:2px}
+@media(max-width:900px){.tracks-grid,.detail-grid,.faq-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(13,27,62,0.98);flex-direction:column;padding:1rem 2rem 1.5rem;gap:1rem}
+  .nav-links.open{display:flex}.nav-toggle{display:flex}
+  .sec,.detail-sec,.enrol-sec,.faq-sec{padding:3.5rem 1.25rem}
+  .form-row{grid-template-columns:1fr}
+  .enrol-form-wrap{padding:1.5rem}
+  .subject-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:360px){.sec,.detail-sec,.enrol-sec,.faq-sec{padding:3rem 1rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <svg viewBox="0 0 120 120" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#1B2860"/>
+      <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+      <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+      <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+      <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+      <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    NexaMind <span class="nav-labs">Labs</span>
+  </a>
+  <div class="nav-toggle" id="nav-toggle"><span></span><span></span><span></span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/training.html" class="active">Training</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="#enrol" class="btn btn-glow" style="padding:0.55rem 1.2rem">Enrol now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">// Training programmes</div>
+  <h1>Learn from people who<br><em>build for a living</em></h1>
+  <p>Two tracks built for two different journeys — IT professionals who want to level up, and school students who want to get ahead.</p>
+  <div class="hero-tracks">
+    <a href="#pro" class="track-pill tp-pro">NexaMind Pro — IT Professionals</a>
+    <a href="#bright-future" class="track-pill tp-bright">Bright Future — CBSE Students</a>
+  </div>
+</section>
+
+<!-- TRACK OVERVIEW CARDS -->
+<section class="sec" style="background:#fff" id="tracks">
+  <div class="container">
+    <div class="tracks-grid">
+
+      <div class="track-card tc-pro" id="pro">
+        <div class="track-badge">For IT Professionals</div>
+        <h2>NexaMind Pro</h2>
+        <p>Industry-aligned courses taught by active practitioners. Learn what's actually being used in production — AI, backend systems, and modern toolchains.</p>
+        <ul class="track-list">
+          <li>Fullstack & backend development</li>
+          <li>AI/ML practical applications</li>
+          <li>RAG pipelines & vector databases</li>
+          <li>SaaS architecture & deployment</li>
+          <li>Real project mentorship</li>
+          <li>Both online and offline sessions</li>
+        </ul>
+        <a href="#enrol" class="btn btn-white" onclick="selectTrack('pro')">Enrol in Pro →</a>
+      </div>
+
+      <div class="track-card tc-bright" id="bright-future">
+        <div class="track-badge">For CBSE Students</div>
+        <h2>Bright Future</h2>
+        <p>Personalised coaching across all CBSE subjects (except languages) — building deep understanding and genuine exam confidence, not just rote answers.</p>
+        <ul class="track-list">
+          <li>All CBSE subjects except languages</li>
+          <li>Concept-first, not rote learning</li>
+          <li>Small batches — max 5 students</li>
+          <li>Weekly progress reports for parents</li>
+          <li>Doubt-clearing sessions</li>
+          <li>Exam strategy and practice</li>
+        </ul>
+        <a href="#enrol" class="btn btn-white" onclick="selectTrack('bright-future')">Enrol in Bright Future →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRO DETAIL -->
+<section class="detail-sec" style="background:var(--surface)">
+  <div class="container">
+    <div class="detail-grid">
+      <div class="detail-visual dv-pro">
+        <div class="dv-title">What you'll learn</div>
+        <ul class="module-list">
+          <li class="module-item"><span class="module-ico">🧠</span><div class="module-text"><h4>AI & LLM Applications</h4><p>LLMs, RAG, embeddings, prompt engineering</p></div></li>
+          <li class="module-item"><span class="module-ico">⚙️</span><div class="module-text"><h4>Backend Engineering</h4><p>FastAPI, Node.js, REST & GraphQL APIs</p></div></li>
+          <li class="module-item"><span class="module-ico">🗄️</span><div class="module-text"><h4>Databases & Search</h4><p>PostgreSQL, pgvector, MongoDB, Redis</p></div></li>
+          <li class="module-item"><span class="module-ico">📱</span><div class="module-text"><h4>Mobile & Web</h4><p>Flutter, React, Next.js, Cloudflare deployment</p></div></li>
+          <li class="module-item"><span class="module-ico">🚀</span><div class="module-text"><h4>SaaS & DevOps</h4><p>Architecture, CI/CD, monitoring, scaling</p></div></li>
+          <li class="module-item"><span class="module-ico">🤝</span><div class="module-text"><h4>Live Project Work</h4><p>Build real products with mentorship</p></div></li>
+        </ul>
+      </div>
+      <div class="detail-info">
+        <div class="sec-tag tag-indigo">// NexaMind Pro</div>
+        <h3>Training for developers who want to stay relevant</h3>
+        <p>The tech landscape moves fast. NexaMind Pro courses are designed by practitioners building AI-powered products today — so you learn exactly what the industry needs right now, not what a textbook said three years ago.</p>
+        <div class="highlight-box">
+          💡 Every course includes a real project you can add to your portfolio. No toy examples — actual production-quality code.
+        </div>
+        <div class="info-pills">
+          <span class="info-pill">🕐 Flexible schedule</span>
+          <span class="info-pill">🖥️ Online & offline</span>
+          <span class="info-pill">👥 Small batches</span>
+          <span class="info-pill">📜 Certificate</span>
+          <span class="info-pill">🇮🇳 Bengaluru-based</span>
+        </div>
+        <a href="#enrol" class="btn btn-glow" onclick="selectTrack('pro')">Enrol in Pro →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIGHT FUTURE DETAIL -->
+<section class="detail-sec" style="background:#fff">
+  <div class="container">
+    <div class="detail-grid">
+      <div class="detail-info">
+        <div class="sec-tag tag-amber">// Bright Future</div>
+        <h3>CBSE coaching that builds real understanding</h3>
+        <p>Most coaching centres teach students to memorise. Bright Future teaches them to understand. When concepts click, grades follow — and more importantly, the knowledge stays.</p>
+        <div class="highlight-box" style="border-color:var(--amber)">
+          📊 Weekly progress reports sent to parents so you always know exactly where your child stands and what's being worked on.
+        </div>
+        <p>We cover all CBSE subjects except languages — from Class 6 through Class 12.</p>
+        <div class="info-pills">
+          <span class="info-pill">📚 All subjects (ex. languages)</span>
+          <span class="info-pill">👥 Max 5 per batch</span>
+          <span class="info-pill">📊 Weekly reports</span>
+          <span class="info-pill">🏠 Online sessions</span>
+        </div>
+        <a href="#enrol" class="btn btn-amber" onclick="selectTrack('bright-future')">Enrol in Bright Future →</a>
+      </div>
+      <div class="detail-visual dv-bright">
+        <div class="dv-title">Subjects we cover</div>
+        <ul class="module-list">
+          <li class="module-item"><span class="module-ico">🔢</span><div class="module-text"><h4>Mathematics</h4><p>Concepts, problem solving, exam strategy</p></div></li>
+          <li class="module-item"><span class="module-ico">⚗️</span><div class="module-text"><h4>Science (Physics, Chemistry, Biology)</h4><p>Theory + practicals + numericals</p></div></li>
+          <li class="module-item"><span class="module-ico">🌍</span><div class="module-text"><h4>Social Studies</h4><p>History, Geography, Civics, Economics</p></div></li>
+          <li class="module-item"><span class="module-ico">💻</span><div class="module-text"><h4>Computer Science / IT</h4><p>Theory + practical programming</p></div></li>
+          <li class="module-item"><span class="module-ico">📊</span><div class="module-text"><h4>Accountancy & Business Studies</h4><p>For Class 11-12 Commerce stream</p></div></li>
+          <li class="module-item"><span class="module-ico">🎯</span><div class="module-text"><h4>Exam Preparation</h4><p>Board exam strategy & mock tests</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENROLMENT FORM -->
+<section class="enrol-sec" id="enrol">
+  <div class="enrol-inner">
+    <div class="enrol-header">
+      <div class="sec-tag tag-teal" style="text-align:center;margin-bottom:0.75rem">// Enrolment</div>
+      <h2>Ready to get started?</h2>
+      <p>Fill in the form below and we'll get back to you within 24 hours with next steps, batch availability, and pricing.</p>
+    </div>
+
+    <!-- Track toggle -->
+    <div class="track-toggle">
+      <button class="tt-btn active-pro" id="btn-pro" onclick="selectTrack('pro')">
+        NexaMind Pro
+        <span>For IT Professionals</span>
+      </button>
+      <button class="tt-btn" id="btn-bright" onclick="selectTrack('bright-future')">
+        Bright Future
+        <span>For CBSE Students</span>
+      </button>
+    </div>
+
+    <div class="enrol-form-wrap">
+      <div class="form-msg" id="enrol-success">✓ Enrolment received! We'll contact you within 24 hours with next steps.</div>
+      <div class="form-msg" id="enrol-error" style="display:none">Something went wrong. Please email us directly at info@nexamindlabs.com</div>
+
+      <form id="enrol-form">
+        <!-- Common fields -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your name *</label>
+            <input type="text" name="name" placeholder="Full name" required>
+          </div>
+          <div class="form-group">
+            <label>Email address *</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone number</label>
+          <input type="tel" name="phone" placeholder="+91 00000 00000">
+        </div>
+
+        <!-- PRO FIELDS -->
+        <div class="track-fields show" id="pro-fields">
+          <div class="form-group">
+            <label>Your current role *</label>
+            <input type="text" name="role" placeholder="e.g. Backend Developer, QA Engineer, Student">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Years of experience</label>
+              <select name="experience">
+                <option value="" disabled selected>Select</option>
+                <option>0–1 year (fresher)</option>
+                <option>1–3 years</option>
+                <option>3–5 years</option>
+                <option>5+ years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Preferred mode</label>
+              <select name="preferred_mode">
+                <option value="" disabled selected>Select</option>
+                <option>Online</option>
+                <option>Offline (Bengaluru)</option>
+                <option>Either works</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>What do you want to learn?</label>
+            <select name="topic_interest">
+              <option value="" disabled selected>Select a focus area</option>
+              <option>AI & LLM Applications</option>
+              <option>Backend Engineering</option>
+              <option>Fullstack Development</option>
+              <option>Mobile Development (Flutter)</option>
+              <option>SaaS Architecture</option>
+              <option>Not sure — guide me</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BRIGHT FUTURE FIELDS -->
+        <div class="track-fields" id="bright-fields">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student's name *</label>
+              <input type="text" name="student_name" placeholder="Student's full name">
+            </div>
+            <div class="form-group">
+              <label>Class / Grade *</label>
+              <select name="grade">
+                <option value="" disabled selected>Select class</option>
+                <option>Class 6</option>
+                <option>Class 7</option>
+                <option>Class 8</option>
+                <option>Class 9</option>
+                <option>Class 10</option>
+                <option>Class 11</option>
+                <option>Class 12</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Stream (for Class 11–12)</label>
+            <select name="stream">
+              <option value="" disabled selected>Select stream (if applicable)</option>
+              <option>Science (PCM)</option>
+              <option>Science (PCB)</option>
+              <option>Commerce</option>
+              <option>Humanities/Arts</option>
+              <option>Not applicable (Class 6–10)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subjects needed</label>
+            <input type="text" name="subjects_needed" placeholder="e.g. Maths, Physics, Chemistry">
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="form-group">
+          <label>Anything else we should know?</label>
+          <textarea name="message" rows="3" placeholder="Goals, schedule preferences, specific challenges…"></textarea>
+        </div>
+
+        <button type="submit" class="btn-enrol btn-enrol-pro" id="enrol-submit">
+          Submit enrolment →
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="container">
+    <div class="sec-tag tag-indigo">// FAQ</div>
+    <h2 class="sec-title" style="color:var(--dark)">Common questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>What are the batch sizes?</h4>
+        <p>We keep batches small intentionally — max 8 for Pro courses and max 5 for Bright Future. This ensures every student gets proper attention and can ask questions freely.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How is pricing decided?</h4>
+        <p>Pricing varies by course and duration. After you submit the enrolment form, we'll share a detailed breakdown within 24 hours based on your specific requirements.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Are sessions recorded?</h4>
+        <p>Yes — all online Pro sessions are recorded and shared with enrolled students so you can revisit any topic at your own pace.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can Bright Future students switch subjects?</h4>
+        <p>Yes. At the start of each month you can adjust which subjects are being covered based on where your child needs the most support.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is there a trial class?</h4>
+        <p>We offer a free 30-minute demo session for both tracks so you can see the teaching style and ask questions before committing.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What if I'm not satisfied?</h4>
+        <p>If you're not happy after the first two sessions, we'll refund your payment — no questions asked. We're confident in the quality but want you to have zero risk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">
+    <svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" rx="22" fill="#1B2860"/>
+      <rect x="16" y="16" width="18" height="88" rx="5" fill="white"/>
+      <rect x="86" y="16" width="18" height="88" rx="5" fill="white"/>
+      <line x1="34" y1="16" x2="86" y2="104" stroke="white" stroke-width="18" stroke-linecap="butt"/>
+      <polygon points="76,60 68,46 52,46 44,60 52,74 68,74" fill="#4F46E5"/>
+      <polygon points="60,49 62.83,57.17 71,60 62.83,62.83 60,71 57.17,62.83 49,60 57.17,57.17" fill="#06B6D4"/>
+      <circle cx="60" cy="60" r="3.5" fill="white"/>
+    </svg>
+    NexaMind <span>Labs</span>
+  </div>
+  <div class="ft-links">
+    <a href="/">Home</a>
+    <a href="/#services">Services</a>
+    <a href="/blog.html">Blog</a>
+    <a href="mailto:info@nexamindlabs.com">info@nexamindlabs.com</a>
+  </div>
+  <p class="ft-copy">© 2026 NexaMind Labs. All rights reserved.</p>
+</footer>
+
+<script>
+// Supabase client
+const { createClient } = supabase;
+const db = createClient(
+  'https://mdpsdsprdlxbfhmnkxaa.supabase.co',
+  'sb_publishable_-NcEyQkOLTkzBqlQ-3YaBQ_ueVFK7rA'
+);
+
+// Nav toggle
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+});
+
+// Track selection
+let currentTrack = 'pro';
+
+function selectTrack(track) {
+  currentTrack = track;
+
+  // Toggle buttons
+  const btnPro = document.getElementById('btn-pro');
+  const btnBright = document.getElementById('btn-bright');
+  btnPro.className = 'tt-btn' + (track === 'pro' ? ' active-pro' : '');
+  btnBright.className = 'tt-btn' + (track === 'bright-future' ? ' active-bright' : '');
+
+  // Show/hide fields
+  document.getElementById('pro-fields').className = 'track-fields' + (track === 'pro' ? ' show' : '');
+  document.getElementById('bright-fields').className = 'track-fields' + (track === 'bright-future' ? ' show' : '');
+
+  // Update submit button style
+  const btn = document.getElementById('enrol-submit');
+  btn.className = 'btn-enrol ' + (track === 'pro' ? 'btn-enrol-pro' : 'btn-enrol-bright');
+  btn.textContent = track === 'pro'
+    ? 'Submit Pro enrolment →'
+    : 'Submit Bright Future enrolment →';
+
+  // Scroll to form
+  document.getElementById('enrol').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Form submission → Supabase
+document.getElementById('enrol-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const submitBtn = document.getElementById('enrol-submit');
+  const successMsg = document.getElementById('enrol-success');
+  const errorMsg = document.getElementById('enrol-error');
+
+  // Validation
+  const name = form.querySelector('[name="name"]').value.trim();
+  const email = form.querySelector('[name="email"]').value.trim();
+  if (!name || !email) {
+    errorMsg.textContent = 'Please fill in your name and email.';
+    errorMsg.className = 'form-msg msg-error';
+    return;
+  }
+
+  // Loading state
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+  successMsg.style.display = 'none';
+  errorMsg.style.display = 'none';
+
+  // Build enrolment object
+  const data = {
+    name,
+    email,
+    phone: form.querySelector('[name="phone"]')?.value.trim() || null,
+    track: currentTrack,
+    message: form.querySelector('[name="message"]')?.value.trim() || null,
+  };
+
+  if (currentTrack === 'pro') {
+    data.role = form.querySelector('[name="role"]')?.value.trim() || null;
+    data.experience = form.querySelector('[name="experience"]')?.value || null;
+    data.preferred_mode = form.querySelector('[name="preferred_mode"]')?.value || null;
+  } else {
+    data.student_name = form.querySelector('[name="student_name"]')?.value.trim() || null;
+    data.grade = form.querySelector('[name="grade"]')?.value || null;
+  }
+
+  try {
+    const { error } = await db.from('enrolments').insert(data);
+
+    if (error) throw error;
+
+    // Success
+    successMsg.className = 'form-msg msg-success';
+    form.reset();
+    submitBtn.textContent = 'Submitted ✓';
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = currentTrack === 'pro'
+        ? 'Submit Pro enrolment →'
+        : 'Submit Bright Future enrolment →';
+    }, 4000);
+
+  } catch (err) {
+    console.error(err);
+    errorMsg.textContent = 'Something went wrong. Please email info@nexamindlabs.com';
+    errorMsg.className = 'form-msg msg-error';
+    submitBtn.disabled = false;
+    submitBtn.textContent = currentTrack === 'pro'
+      ? 'Submit Pro enrolment →'
+      : 'Submit Bright Future enrolment →';
+  }
+});
+</script>
+</body>
+</html>
