@@ -583,9 +583,33 @@ document.getElementById('enrol-form').addEventListener('submit', async function(
   }
 
   try {
+    // 1. Save to Supabase (permanent record)
     const { error } = await db.from('enrolments').insert(data);
-
     if (error) throw error;
+
+    // 2. Send email notification via Formspree
+    const formspreeData = new FormData();
+    formspreeData.append('_subject', `New enrolment: ${currentTrack === 'pro' ? 'NexaMind Pro' : 'Bright Future'} — NexaMind Labs`);
+    formspreeData.append('Full Name', data.name);
+    formspreeData.append('Email', data.email);
+    formspreeData.append('Phone', data.phone || 'Not provided');
+    formspreeData.append('Track', currentTrack === 'pro' ? 'NexaMind Pro' : 'Bright Future');
+    if (currentTrack === 'pro') {
+      formspreeData.append('Role', data.role || 'Not specified');
+      formspreeData.append('Experience', data.experience || 'Not specified');
+      formspreeData.append('Preferred Mode', data.preferred_mode || 'Not specified');
+    } else {
+      formspreeData.append('Student Name', data.student_name || 'Not specified');
+      formspreeData.append('Class / Grade', data.grade || 'Not specified');
+    }
+    formspreeData.append('Message', data.message || 'No additional message');
+
+    await fetch('https://formspree.io/f/xkjwlndw', {
+      method: 'POST',
+      body: formspreeData,
+      headers: { 'Accept': 'application/json' }
+    });
+    // Formspree failure is non-critical — Supabase already saved the record
 
     // Success
     successMsg.className = 'form-msg msg-success';
