@@ -4,7 +4,7 @@ date: 2026-08-24T09:00:00.000Z
 author: Jyothish Narayan
 category: AI
 summary: A step-by-step developer guide to building a full-stack AI-powered project management tool — with natural language task creation, smart prioritisation, deadline estimation, and a clean React frontend backed by Supabase and FastAPI.
-image: /images/blog/thumb-ai-pm-tool.png.png
+image: /images/thumb-ai-pm-tool.png.png
 ---
 
 Project management tools are everywhere. But most of them treat AI as a marketing badge — a thin layer of autocomplete on top of a glorified spreadsheet. In this post, we're building something different: a PM tool where AI is woven into the core workflow. Tasks get created from plain English. Priorities are scored automatically. Deadlines are estimated from historical patterns. And the whole thing is yours to own, deploy, and extend.
