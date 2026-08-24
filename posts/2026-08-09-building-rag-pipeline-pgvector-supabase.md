@@ -4,6 +4,7 @@ date: 2026-08-09T10:00:00.000Z
 author: NexaMind Labs
 category: AI
 summary: A practical walkthrough of setting up semantic search for your applications using pgvector and Supabase — open-source tools that handle vector embeddings without the complexity of dedicated vector databases.
+image: images/thumb-rag-pipeline.png.png
 ---
 
 Retrieval-Augmented Generation (RAG) is one of the most practical AI patterns you can add to any application. Instead of relying solely on an LLM's training data, RAG lets your app pull relevant context from your own data before generating a response.
